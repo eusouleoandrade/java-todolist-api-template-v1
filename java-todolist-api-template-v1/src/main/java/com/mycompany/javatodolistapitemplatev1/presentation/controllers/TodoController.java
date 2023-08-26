@@ -3,6 +3,8 @@ package com.mycompany.javatodolistapitemplatev1.presentation.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +20,10 @@ import com.mycompany.javatodolistapitemplatev1.application.mappers.GetTodoListUs
 public class TodoController {
 
     private final IGetTodoListUseCase getTodoListUseCase;
+
     private final GetTodoListUseCaseResponseMapper getTodoListUseCaseResponseMapper;
+
+    private final Logger logger = LoggerFactory.getLogger(TodoController.class);
 
     public TodoController(IGetTodoListUseCase getTodoUseCase,
             GetTodoListUseCaseResponseMapper getTodoListUseCaseResponseMapper) {
@@ -28,7 +33,11 @@ public class TodoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TodoQuery>> getAll() {
+    public ResponseEntity<List<TodoQuery>> getPaginated() {
+
+        // Loger start
+        logger.info(String.format("Start controller {0} > method getPaginated.",
+                TodoController.class.getSimpleName()));
 
         // Join: Wait for the async task to complete (not blocking a thread)
         var useCaseResponse = getTodoListUseCase.runAsync().join();
@@ -37,6 +46,10 @@ public class TodoController {
         var todoQueryList = useCaseResponse.stream()
                 .map(getTodoListUseCaseResponseMapper::convertTodoQuery)
                 .collect(Collectors.toList());
+
+        // Loger start
+        logger.info(String.format("Finishes successfully controller %s > method getPaginated.",
+                TodoController.class.getSimpleName()));
 
         // Response
         return new ResponseEntity<List<TodoQuery>>(todoQueryList, HttpStatus.OK);
