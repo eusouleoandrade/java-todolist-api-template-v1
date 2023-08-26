@@ -8,7 +8,7 @@ public abstract class BaseEntity<TId extends Number> {
         return id;
     }
 
-    protected void setId(TId id) {
+    public void setId(TId id) {
         this.id = id;
     }
 }
