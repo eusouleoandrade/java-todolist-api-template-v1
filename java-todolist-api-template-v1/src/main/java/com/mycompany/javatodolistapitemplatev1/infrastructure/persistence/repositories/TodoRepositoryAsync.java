@@ -1,8 +1,6 @@
 package com.mycompany.javatodolistapitemplatev1.infrastructure.persistence.repositories;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +13,6 @@ import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
 
 @Repository
 public class TodoRepositoryAsync implements ITodoRepositoryAsync {
-
-    // @Override
-    // public CompletableFuture<List<Todo>> getTodoListAsync() {
-
-    // List<Todo> entities = new ArrayList<Todo>();
-
-    // entities.add(new Todo(1, "Todo one", true));
-    // entities.add(new Todo(2, "Todo two", false));
-    // entities.add(new Todo(1, "Todo three", true));
-
-    // return CompletableFuture.completedFuture(entities);
-    // }
 
     private final JdbcTemplate jdbcTemplate;
 
