@@ -3,7 +3,6 @@ package com.mycompany.javatodolistapitemplatev1.infrastructure.persistence.repos
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,7 +15,6 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public TodoRepositoryAsync(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -26,7 +24,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
         String sql = "SELECT * FROM todo";
 
-        List<Todo> entities = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Todo.class));
+        var entities = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Todo.class));
 
         return CompletableFuture.completedFuture(entities);
     }

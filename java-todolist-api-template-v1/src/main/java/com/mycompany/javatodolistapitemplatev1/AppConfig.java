@@ -19,7 +19,7 @@ public class AppConfig {
     DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/todolistdb?useSSL=false&serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/todolistdb?useSSL=false&serverTimezone=UTC");
         dataSource.setUsername("root");
         dataSource.setPassword("pwdmysql");
         return dataSource;
