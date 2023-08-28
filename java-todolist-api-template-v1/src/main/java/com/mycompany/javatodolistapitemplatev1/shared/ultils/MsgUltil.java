@@ -91,4 +91,10 @@ public class MsgUltil {
     public static String FAILED_TO_REMOVE_X0_TXT(String entityName) {
         return "Failed to remove " + entityName + ".";
     }
+
+    // COD0011
+    public static String[] RESPONSE_FAILED_PROCESS_REQUEST() {
+        String[] codAndMessage = { "COD0011", "Failed to process the request." };
+        return codAndMessage;
+    }
 }

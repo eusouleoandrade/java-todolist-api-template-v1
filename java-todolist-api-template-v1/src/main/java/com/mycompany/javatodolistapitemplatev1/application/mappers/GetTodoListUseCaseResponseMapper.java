@@ -15,7 +15,7 @@ public class GetTodoListUseCaseResponseMapper {
         this.modelMapper = modelMapper;
     }
 
-    public TodoQuery convertTodoQuery(GetTodoListUseCaseResponse useCaseResponse) {
-        return modelMapper.map(useCaseResponse, TodoQuery.class);
+    public TodoQuery convertTodoQuery(GetTodoListUseCaseResponse getTodoListUseCaseResponse) {
+        return modelMapper.map(getTodoListUseCaseResponse, TodoQuery.class);
     }
 }

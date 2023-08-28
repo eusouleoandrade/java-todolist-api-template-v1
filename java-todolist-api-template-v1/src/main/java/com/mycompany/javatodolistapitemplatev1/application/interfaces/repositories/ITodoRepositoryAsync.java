@@ -6,5 +6,10 @@ import java.util.concurrent.CompletableFuture;
 import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
 
 public interface ITodoRepositoryAsync {
+
     CompletableFuture<List<Todo>> getTodoListAsync();
+
+    CompletableFuture<List<Todo>> getPaginatedTodoListsAsync(int pageSize, int pageNumber);
+
+    CompletableFuture<Integer> getTotalRecordsAsync();
 }
