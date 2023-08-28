@@ -47,10 +47,10 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
                     TodoRepositoryAsync.class.getSimpleName()));
 
             return CompletableFuture.completedFuture(entities);
-        } catch (DataAccessException e) {
+        } catch (DataAccessException ex) {
 
-            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR_TXT() + " - Error: " + e.getMessage(), e);
-            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR_TXT(), e);
+            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR_TXT() + " - Error: " + ex.getMessage(), ex);
+            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR_TXT(), ex);
         } finally {
 
             logger.info(String.format("Finishes repository %s > method getTodoListAsync.",
@@ -81,10 +81,10 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
             return CompletableFuture.completedFuture(entities);
 
-        } catch (DataAccessException e) {
+        } catch (DataAccessException ex) {
 
-            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR_TXT() + " - Error: " + e.getMessage(), e);
-            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR_TXT(), e);
+            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR_TXT() + " - Error: " + ex.getMessage(), ex);
+            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR_TXT(), ex);
         } finally {
 
             logger.info(String.format("Finishes repository %s > method getPaginatedTodoListsAsync.",
@@ -106,10 +106,10 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
             return CompletableFuture.completedFuture(totalRecords);
 
-        } catch (DataAccessException e) {
+        } catch (DataAccessException ex) {
 
-            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR_TXT() + " - Error: " + e.getMessage(), e);
-            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR_TXT(), e);
+            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR_TXT() + " - Error: " + ex.getMessage(), ex);
+            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR_TXT(), ex);
         } finally {
 
             logger.info(String.format("Finishes repository %s > method getTotalRecordsAsync.",

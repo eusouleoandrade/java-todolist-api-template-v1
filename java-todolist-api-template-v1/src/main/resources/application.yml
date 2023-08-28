@@ -1,0 +1,4 @@
+paginationSettings:
+  maxPageSize: 50
+  defaultPageSize: 10
+  initialPagination: 1
