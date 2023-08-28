@@ -12,7 +12,6 @@ import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetPag
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetPaginatedTodoListsUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
-import com.mycompany.javatodolistapitemplatev1.infrastructure.persistence.repositories.TodoRepositoryAsync;
 
 @Service
 public class GetPaginatedTodoListsUseCase implements IGetPaginatedTodoListsUseCase {
@@ -33,7 +32,7 @@ public class GetPaginatedTodoListsUseCase implements IGetPaginatedTodoListsUseCa
                         GetPaginatedTodoListsUseCaseRequest request) {
 
                 logger.info(String.format("Start useCase %s > method runAsync.",
-                                TodoRepositoryAsync.class.getSimpleName()));
+                                GetPaginatedTodoListsUseCase.class.getSimpleName()));
 
                 var entities = todoRepositoryAsync
                                 .getPaginatedTodoListsAsync(request.getPageSize(), request.getPageNumber())
@@ -52,7 +51,7 @@ public class GetPaginatedTodoListsUseCase implements IGetPaginatedTodoListsUseCa
                                                 .collect(Collectors.toList()));
 
                 logger.info(String.format("Finishes successfully useCase %s > method runAsync.",
-                                TodoRepositoryAsync.class.getSimpleName()));
+                                GetPaginatedTodoListsUseCase.class.getSimpleName()));
 
                 return CompletableFuture.completedFuture(useCaseResponse);
         }

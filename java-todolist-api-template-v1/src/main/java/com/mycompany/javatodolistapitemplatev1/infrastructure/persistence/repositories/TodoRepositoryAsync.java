@@ -43,9 +43,6 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
             var entities = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Todo.class));
 
-            logger.info(String.format("Finishes successfully repository %s > method getTodoListAsync.",
-                    TodoRepositoryAsync.class.getSimpleName()));
-
             return CompletableFuture.completedFuture(entities);
         } catch (DataAccessException ex) {
 
@@ -75,9 +72,6 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
         try {
 
             var entities = namedParameterJdbcTemplate.query(query, params, new BeanPropertyRowMapper<>(Todo.class));
-
-            logger.info(String.format("Finishes successfully repository %s > method getPaginatedTodoListsAsync.",
-                    TodoRepositoryAsync.class.getSimpleName()));
 
             return CompletableFuture.completedFuture(entities);
 
