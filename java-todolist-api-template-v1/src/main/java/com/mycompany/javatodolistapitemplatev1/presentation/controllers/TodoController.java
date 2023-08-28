@@ -78,18 +78,22 @@ public class TodoController {
                 logger.info(String.format("Start controller %s > method getPaginated.",
                                 TodoController.class.getSimpleName()));
 
-                var useCaseRequest = new GetPaginatedTodoListsUseCaseRequest(
-                                pageNumber,
-                                pageSize,
-                                environment.getProperty("PaginationSettings:MaxPageSize", Integer.class),
-                                environment.getProperty("PaginationSettings:DefaultPageSize", Integer.class),
-                                environment.getProperty("PaginationSettings:InitialPagination", Integer.class));
+                // var useCaseRequest = new GetPaginatedTodoListsUseCaseRequest(
+                // pageNumber,
+                // pageSize,
+                // environment.getProperty("PaginationSettings:MaxPageSize", Integer.class),
+                // environment.getProperty("PaginationSettings:DefaultPageSize", Integer.class),
+                // environment.getProperty("PaginationSettings:InitialPagination",
+                // Integer.class));
+
+                // TODO: Here
+
+                var useCaseRequest = new GetPaginatedTodoListsUseCaseRequest(pageNumber, pageSize, 50, 10, 1);
 
                 var useCaseResponse = getPaginatedTodoListsUseCase.runAsync(useCaseRequest).join();
 
                 var todoQueryList = useCaseResponse.todoListUseCaseResponse.stream()
-                                .map(todoUseCaseResponseMapperl::convertTodoQuery)
-                                .collect(Collectors.toList());
+                                .map(todoUseCaseResponseMapperl::convertTodoQuery).collect(Collectors.toList());
 
                 var response = new PagedResponse<List<TodoQuery>>(todoQueryList, useCaseResponse.getPageNumber(),
                                 useCaseResponse.getPageSize(), useCaseResponse.getTotalPages(),
