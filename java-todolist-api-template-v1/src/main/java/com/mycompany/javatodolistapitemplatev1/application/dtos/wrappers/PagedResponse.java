@@ -1,6 +1,6 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.wrappers;
 
-public class PagedResponse<TData> extends Response<TData> {
+public class PagedResponse<TData> extends ResponseWithData<TData> {
 
     public int pageNumber;
 

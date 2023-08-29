@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.GetPaginatedTodoListsUseCaseRequest;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetPaginatedTodoListsUseCaseResponse;
@@ -14,6 +15,7 @@ import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.I
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
 
 @Service
+@RequestScope
 public class GetPaginatedTodoListsUseCase implements IGetPaginatedTodoListsUseCase {
 
         private final Logger logger = LoggerFactory.getLogger(GetPaginatedTodoListsUseCase.class);

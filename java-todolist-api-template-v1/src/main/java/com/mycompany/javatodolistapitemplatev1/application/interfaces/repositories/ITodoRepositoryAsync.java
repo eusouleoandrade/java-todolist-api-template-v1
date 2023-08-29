@@ -12,4 +12,6 @@ public interface ITodoRepositoryAsync {
     CompletableFuture<List<Todo>> getPaginatedTodoListsAsync(int pageSize, int pageNumber);
 
     CompletableFuture<Integer> getTotalRecordsAsync();
+
+    CompletableFuture<Todo> getAsync(long id);
 }

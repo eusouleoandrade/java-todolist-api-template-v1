@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.GetPaginatedTodoListsUseCaseRequest;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.wrappers.PagedResponse;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.wrappers.ResponseWithData;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetPaginatedTodoListsUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoListUseCase;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.GetTodoListUseCaseResponseMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoUseCaseResponseMapper;
+import com.mycompany.javatodolistapitemplatev1.shared.notification.contexts.NotificationContext;
 
 @RestController
 @RequestMapping("api/v1/todo")
@@ -27,9 +31,11 @@ public class TodoController {
 
         private final IGetTodoListUseCase getTodoListUseCase;
         private final IGetPaginatedTodoListsUseCase getPaginatedTodoListsUseCase;
+        private final IGetTodoUseCase getTodoUseCase;
         private final GetTodoListUseCaseResponseMapper getTodoListUseCaseResponseMapper;
-        private final TodoUseCaseResponseMapper todoUseCaseResponseMapperl;
+        private final TodoUseCaseResponseMapper todoUseCaseResponseMapper;
         private final Logger logger = LoggerFactory.getLogger(TodoController.class);
+        private final NotificationContext notificationContext;
 
         @Value("${paginationSettings.maxPageSize}")
         private int maxPageSize;
@@ -40,19 +46,23 @@ public class TodoController {
         @Value("${paginationSettings.initialPagination}")
         private int initialPagination;
 
-        public TodoController(IGetTodoListUseCase getTodoUseCase,
+        public TodoController(IGetTodoListUseCase getTodoListUseCase,
                         GetTodoListUseCaseResponseMapper getTodoListUseCaseResponseMapper,
                         IGetPaginatedTodoListsUseCase getPaginatedTodoListsUseCase,
-                        TodoUseCaseResponseMapper todoUseCaseResponseMapper) {
+                        TodoUseCaseResponseMapper todoUseCaseResponseMapper,
+                        IGetTodoUseCase getTodoUseCase,
+                        NotificationContext notificationContext) {
 
-                this.getTodoListUseCase = getTodoUseCase;
+                this.getTodoListUseCase = getTodoListUseCase;
                 this.getTodoListUseCaseResponseMapper = getTodoListUseCaseResponseMapper;
-                this.todoUseCaseResponseMapperl = todoUseCaseResponseMapper;
+                this.todoUseCaseResponseMapper = todoUseCaseResponseMapper;
                 this.getPaginatedTodoListsUseCase = getPaginatedTodoListsUseCase;
+                this.getTodoUseCase = getTodoUseCase;
+                this.notificationContext = notificationContext;
         }
 
         @GetMapping
-        public ResponseEntity<List<TodoQuery>> getAll() {
+        public ResponseEntity<ResponseWithData<List<TodoQuery>>> getAll() {
 
                 logger.info(String.format("Start controller %s > method getAll.",
                                 TodoController.class.getSimpleName()));
@@ -66,7 +76,7 @@ public class TodoController {
                 logger.info(String.format("Finishes successfully controller %s > method getAll.",
                                 TodoController.class.getSimpleName()));
 
-                return new ResponseEntity<List<TodoQuery>>(todoQueryList, HttpStatus.OK);
+                return ResponseEntity.ok(new ResponseWithData<List<TodoQuery>>(todoQueryList, true, null));
         }
 
         @GetMapping("paginated")
@@ -83,7 +93,7 @@ public class TodoController {
                 var useCaseResponse = getPaginatedTodoListsUseCase.runAsync(useCaseRequest).join();
 
                 var todoQueryList = useCaseResponse.todoListUseCaseResponse.stream()
-                                .map(todoUseCaseResponseMapperl::convertTodoQuery).collect(Collectors.toList());
+                                .map(todoUseCaseResponseMapper::convertTodoQuery).collect(Collectors.toList());
 
                 var response = new PagedResponse<List<TodoQuery>>(todoQueryList, useCaseResponse.getPageNumber(),
                                 useCaseResponse.getPageSize(), useCaseResponse.getTotalPages(),
@@ -93,5 +103,26 @@ public class TodoController {
                                 TodoController.class.getSimpleName()));
 
                 return ResponseEntity.ok(response);
+        }
+
+        @GetMapping("/{id}")
+        public ResponseEntity<?> get(@PathVariable long id) {
+
+                logger.info(String.format("Start controller %s > method get.",
+                                TodoController.class.getSimpleName()));
+
+                var useCaseResponse = getTodoUseCase.runAsync(id).join();
+
+                if (getTodoUseCase.hasErrorNotification()) {
+                        notificationContext.addErrorNotifications(getTodoUseCase);
+                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+
+                var response = todoUseCaseResponseMapper.convertTodoQuery(useCaseResponse);
+
+                logger.info(String.format("Finishes successfully controller %s > method get.",
+                                TodoController.class.getSimpleName()));
+
+                return ResponseEntity.ok(new ResponseWithData<TodoQuery>(response, true));
         }
 }

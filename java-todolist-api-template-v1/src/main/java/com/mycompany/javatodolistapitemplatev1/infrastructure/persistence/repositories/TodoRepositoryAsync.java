@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -46,8 +47,8 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
             return CompletableFuture.completedFuture(entities);
         } catch (DataAccessException ex) {
 
-            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR_TXT() + " - Error: " + ex.getMessage(), ex);
-            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR_TXT(), ex);
+            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR()[1] + " - Error: " + ex.getMessage(), ex);
+            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR()[1], ex);
         } finally {
 
             logger.info(String.format("Finishes repository %s > method getTodoListAsync.",
@@ -77,8 +78,8 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
         } catch (DataAccessException ex) {
 
-            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR_TXT() + " - Error: " + ex.getMessage(), ex);
-            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR_TXT(), ex);
+            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR()[1] + " - Error: " + ex.getMessage(), ex);
+            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR()[1], ex);
         } finally {
 
             logger.info(String.format("Finishes repository %s > method getPaginatedTodoListsAsync.",
@@ -102,11 +103,45 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
         } catch (DataAccessException ex) {
 
-            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR_TXT() + " - Error: " + ex.getMessage(), ex);
-            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR_TXT(), ex);
+            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR()[1] + " - Error: " + ex.getMessage(), ex);
+            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR()[1], ex);
         } finally {
 
             logger.info(String.format("Finishes repository %s > method getTotalRecordsAsync.",
+                    TodoRepositoryAsync.class.getSimpleName()));
+        }
+    }
+
+    @Override
+    public CompletableFuture<Todo> getAsync(long id) {
+
+        logger.info(String.format("Start repository %s > method getAsync.",
+                TodoRepositoryAsync.class.getSimpleName()));
+
+        String query = "SELECT * FROM todo WHERE id = :id";
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("id", id);
+
+        try {
+
+            Todo entity = namedParameterJdbcTemplate.queryForObject(query, params,
+                    new BeanPropertyRowMapper<>(Todo.class));
+
+            return CompletableFuture.completedFuture(entity);
+
+        } catch (EmptyResultDataAccessException ex) {
+
+            return CompletableFuture.completedFuture(null);
+
+        } catch (Exception ex) {
+
+            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR()[1] + " - Error: " + ex.getMessage(), ex);
+            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR()[1], ex);
+
+        } finally {
+
+            logger.info(String.format("Finishes repository %s > method getAsync.",
                     TodoRepositoryAsync.class.getSimpleName()));
         }
     }
