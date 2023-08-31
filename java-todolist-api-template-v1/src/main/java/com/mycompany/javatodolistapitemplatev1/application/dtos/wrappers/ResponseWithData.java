@@ -5,6 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
 
+import io.micrometer.common.lang.Nullable;
+
 public class ResponseWithData<TData> {
 
     public boolean succeeded;
@@ -16,16 +18,20 @@ public class ResponseWithData<TData> {
 
     public TData data;
 
-    public ResponseWithData(TData data, boolean succeeded, String message, List<String> errors) {
+    public ResponseWithData(TData data,
+            boolean succeeded,
+            @Nullable String message,
+            @Nullable List<String> errors) {
+
         this.data = data;
         this.succeeded = succeeded;
-        this.message = message;
         this.errors = errors;
 
-        if (message == null || message.trim().isEmpty()) {
+        if (message == null || message.trim().isEmpty())
             this.message = succeeded ? MsgUltil.RESPONSE_SUCCEEDED_MESSAGE()[1]
                     : MsgUltil.RESPONSE_FAILED_PROCESS_REQUEST()[1];
-        }
+        else
+            this.message = message;
     }
 
     public ResponseWithData(TData data, boolean succeeded, String message) {

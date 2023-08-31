@@ -21,7 +21,7 @@ public class MsgUltil {
 
     // COD0004
     public static String[] DATA_OF_X0_X1_NOT_FOUND(@Nullable String param0, @Nullable String param1) {
-        return new String[] { "COD0004", String.format("Data of  %s param0 %s not found.", param0, param1) };
+        return new String[] { "COD0004", String.format("Data of %s %s not found.", param0, param1) };
     }
 
     // COD0005
