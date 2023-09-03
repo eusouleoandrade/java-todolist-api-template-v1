@@ -18,49 +18,49 @@ import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
 @RequestScope
 public class GetPaginatedTodoListsUseCase implements IGetPaginatedTodoListsUseCase {
 
-        private final Logger logger = LoggerFactory.getLogger(GetPaginatedTodoListsUseCase.class);
+    private final Logger logger = LoggerFactory.getLogger(GetPaginatedTodoListsUseCase.class);
 
-        private final ITodoRepositoryAsync todoRepositoryAsync;
+    private final ITodoRepositoryAsync todoRepositoryAsync;
 
-        private final TodoMapper todoMapper;
+    private final TodoMapper todoMapper;
 
-        public GetPaginatedTodoListsUseCase(ITodoRepositoryAsync todoRepositoryAsync, TodoMapper todoMapper) {
-                this.todoRepositoryAsync = todoRepositoryAsync;
-                this.todoMapper = todoMapper;
-        }
+    public GetPaginatedTodoListsUseCase(ITodoRepositoryAsync todoRepositoryAsync, TodoMapper todoMapper) {
+        this.todoRepositoryAsync = todoRepositoryAsync;
+        this.todoMapper = todoMapper;
+    }
 
-        @Override
-        public CompletableFuture<GetPaginatedTodoListsUseCaseResponse> runAsync(
-                        GetPaginatedTodoListsUseCaseRequest request) {
+    @Override
+    public CompletableFuture<GetPaginatedTodoListsUseCaseResponse> runAsync(
+            GetPaginatedTodoListsUseCaseRequest request) {
 
-                logger.info(String.format("Start useCase %s > method runAsync.",
-                                GetPaginatedTodoListsUseCase.class.getSimpleName()));
+        logger.info(String.format("Start useCase %s > method runAsync.",
+                GetPaginatedTodoListsUseCase.class.getSimpleName()));
 
-                var entities = todoRepositoryAsync
-                                .getPaginatedTodoListsAsync(request.getPageSize(), request.getPageNumber())
-                                .join();
+        var entities = todoRepositoryAsync
+                .getPaginatedTodoListsAsync(request.getPageSize(), request.getPageNumber())
+                .join();
 
-                int totalRecords = todoRepositoryAsync.getTotalRecordsAsync().join();
+        int totalRecords = todoRepositoryAsync.getTotalRecordsAsync().join();
 
-                int totalPages = calculateTotalPages(totalRecords, request.getPageSize());
+        int totalPages = calculateTotalPages(totalRecords, request.getPageSize());
 
-                var useCaseResponse = new GetPaginatedTodoListsUseCaseResponse(
-                                request.getPageNumber(),
-                                request.getPageSize(),
-                                totalPages,
-                                totalRecords,
-                                entities.stream().map(todoMapper::convertTodoUseCaseResponse)
-                                                .collect(Collectors.toList()));
+        var useCaseResponse = new GetPaginatedTodoListsUseCaseResponse(
+                request.getPageNumber(),
+                request.getPageSize(),
+                totalPages,
+                totalRecords,
+                entities.stream().map(todoMapper::convertTodoUseCaseResponse)
+                        .collect(Collectors.toList()));
 
-                logger.info(String.format("Finishes successfully useCase %s > method runAsync.",
-                                GetPaginatedTodoListsUseCase.class.getSimpleName()));
+        logger.info(String.format("Finishes successfully useCase %s > method runAsync.",
+                GetPaginatedTodoListsUseCase.class.getSimpleName()));
 
-                return CompletableFuture.completedFuture(useCaseResponse);
-        }
+        return CompletableFuture.completedFuture(useCaseResponse);
+    }
 
-        private int calculateTotalPages(int totalRecords, int pageSize) {
+    private int calculateTotalPages(int totalRecords, int pageSize) {
 
-                double totalPages = ((double) totalRecords / (double) pageSize);
-                return (int) Math.ceil(totalPages);
-        }
+        double totalPages = ((double) totalRecords / (double) pageSize);
+        return (int) Math.ceil(totalPages);
+    }
 }
