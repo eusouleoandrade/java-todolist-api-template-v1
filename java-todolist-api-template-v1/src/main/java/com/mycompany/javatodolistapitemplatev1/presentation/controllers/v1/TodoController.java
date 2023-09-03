@@ -29,100 +29,100 @@ import com.mycompany.javatodolistapitemplatev1.shared.notification.contexts.Noti
 @RequestMapping("api/v1/todo")
 public class TodoController {
 
-        private final IGetTodoListUseCase getTodoListUseCase;
-        private final IGetPaginatedTodoListsUseCase getPaginatedTodoListsUseCase;
-        private final IGetTodoUseCase getTodoUseCase;
-        private final GetTodoListUseCaseResponseMapper getTodoListUseCaseResponseMapper;
-        private final TodoUseCaseResponseMapper todoUseCaseResponseMapper;
-        private final Logger logger = LoggerFactory.getLogger(TodoController.class);
-        private final NotificationContext notificationContext;
+    private final IGetTodoListUseCase getTodoListUseCase;
+    private final IGetPaginatedTodoListsUseCase getPaginatedTodoListsUseCase;
+    private final IGetTodoUseCase getTodoUseCase;
+    private final GetTodoListUseCaseResponseMapper getTodoListUseCaseResponseMapper;
+    private final TodoUseCaseResponseMapper todoUseCaseResponseMapper;
+    private final Logger logger = LoggerFactory.getLogger(TodoController.class);
+    private final NotificationContext notificationContext;
 
-        @Value("${paginationSettings.maxPageSize}")
-        private int maxPageSize;
+    @Value("${paginationSettings.maxPageSize}")
+    private int maxPageSize;
 
-        @Value("${paginationSettings.defaultPageSize}")
-        private int defaultPageSize;
+    @Value("${paginationSettings.defaultPageSize}")
+    private int defaultPageSize;
 
-        @Value("${paginationSettings.initialPagination}")
-        private int initialPagination;
+    @Value("${paginationSettings.initialPagination}")
+    private int initialPagination;
 
-        public TodoController(IGetTodoListUseCase getTodoListUseCase,
-                        GetTodoListUseCaseResponseMapper getTodoListUseCaseResponseMapper,
-                        IGetPaginatedTodoListsUseCase getPaginatedTodoListsUseCase,
-                        TodoUseCaseResponseMapper todoUseCaseResponseMapper,
-                        IGetTodoUseCase getTodoUseCase,
-                        NotificationContext notificationContext) {
+    public TodoController(IGetTodoListUseCase getTodoListUseCase,
+            GetTodoListUseCaseResponseMapper getTodoListUseCaseResponseMapper,
+            IGetPaginatedTodoListsUseCase getPaginatedTodoListsUseCase,
+            TodoUseCaseResponseMapper todoUseCaseResponseMapper,
+            IGetTodoUseCase getTodoUseCase,
+            NotificationContext notificationContext) {
 
-                this.getTodoListUseCase = getTodoListUseCase;
-                this.getTodoListUseCaseResponseMapper = getTodoListUseCaseResponseMapper;
-                this.todoUseCaseResponseMapper = todoUseCaseResponseMapper;
-                this.getPaginatedTodoListsUseCase = getPaginatedTodoListsUseCase;
-                this.getTodoUseCase = getTodoUseCase;
-                this.notificationContext = notificationContext;
+        this.getTodoListUseCase = getTodoListUseCase;
+        this.getTodoListUseCaseResponseMapper = getTodoListUseCaseResponseMapper;
+        this.todoUseCaseResponseMapper = todoUseCaseResponseMapper;
+        this.getPaginatedTodoListsUseCase = getPaginatedTodoListsUseCase;
+        this.getTodoUseCase = getTodoUseCase;
+        this.notificationContext = notificationContext;
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseWithData<List<TodoQuery>>> getAll() {
+
+        logger.info(String.format("Start controller %s > method getAll.",
+                TodoController.class.getSimpleName()));
+
+        var useCaseResponse = getTodoListUseCase.runAsync().join();
+
+        var todoQueryList = useCaseResponse.stream()
+                .map(getTodoListUseCaseResponseMapper::convertTodoQuery)
+                .collect(Collectors.toList());
+
+        logger.info(String.format("Finishes successfully controller %s > method getAll.",
+                TodoController.class.getSimpleName()));
+
+        return ResponseEntity.ok(new ResponseWithData<List<TodoQuery>>(todoQueryList, true, null));
+    }
+
+    @GetMapping("paginated")
+    public ResponseEntity<PagedResponse<List<TodoQuery>>> getPaginated(
+            @RequestParam(name = "page_number") int pageNumber,
+            @RequestParam(name = "page_size") int pageSize) {
+
+        logger.info(String.format("Start controller %s > method getPaginated.",
+                TodoController.class.getSimpleName()));
+
+        var useCaseRequest = new GetPaginatedTodoListsUseCaseRequest(pageNumber,
+                pageSize, maxPageSize, defaultPageSize, initialPagination);
+
+        var useCaseResponse = getPaginatedTodoListsUseCase.runAsync(useCaseRequest).join();
+
+        var todoQueryList = useCaseResponse.todoListUseCaseResponse.stream()
+                .map(todoUseCaseResponseMapper::convertTodoQuery).collect(Collectors.toList());
+
+        var response = new PagedResponse<List<TodoQuery>>(todoQueryList, useCaseResponse.getPageNumber(),
+                useCaseResponse.getPageSize(), useCaseResponse.getTotalPages(),
+                useCaseResponse.getTotalRecords());
+
+        logger.info(String.format("Finishes successfully controller %s > method getPaginated.",
+                TodoController.class.getSimpleName()));
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get(@PathVariable long id) {
+
+        logger.info(String.format("Start controller %s > method get.",
+                TodoController.class.getSimpleName()));
+
+        var useCaseResponse = getTodoUseCase.runAsync(id).join();
+
+        if (getTodoUseCase.hasErrorNotification()) {
+            notificationContext.addErrorNotifications(getTodoUseCase);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        @GetMapping
-        public ResponseEntity<ResponseWithData<List<TodoQuery>>> getAll() {
+        var response = todoUseCaseResponseMapper.convertTodoQuery(useCaseResponse);
 
-                logger.info(String.format("Start controller %s > method getAll.",
-                                TodoController.class.getSimpleName()));
+        logger.info(String.format("Finishes successfully controller %s > method get.",
+                TodoController.class.getSimpleName()));
 
-                var useCaseResponse = getTodoListUseCase.runAsync().join();
-
-                var todoQueryList = useCaseResponse.stream()
-                                .map(getTodoListUseCaseResponseMapper::convertTodoQuery)
-                                .collect(Collectors.toList());
-
-                logger.info(String.format("Finishes successfully controller %s > method getAll.",
-                                TodoController.class.getSimpleName()));
-
-                return ResponseEntity.ok(new ResponseWithData<List<TodoQuery>>(todoQueryList, true, null));
-        }
-
-        @GetMapping("paginated")
-        public ResponseEntity<PagedResponse<List<TodoQuery>>> getPaginated(
-                        @RequestParam(name = "page_number") int pageNumber,
-                        @RequestParam(name = "page_size") int pageSize) {
-
-                logger.info(String.format("Start controller %s > method getPaginated.",
-                                TodoController.class.getSimpleName()));
-
-                var useCaseRequest = new GetPaginatedTodoListsUseCaseRequest(pageNumber,
-                                pageSize, maxPageSize, defaultPageSize, initialPagination);
-
-                var useCaseResponse = getPaginatedTodoListsUseCase.runAsync(useCaseRequest).join();
-
-                var todoQueryList = useCaseResponse.todoListUseCaseResponse.stream()
-                                .map(todoUseCaseResponseMapper::convertTodoQuery).collect(Collectors.toList());
-
-                var response = new PagedResponse<List<TodoQuery>>(todoQueryList, useCaseResponse.getPageNumber(),
-                                useCaseResponse.getPageSize(), useCaseResponse.getTotalPages(),
-                                useCaseResponse.getTotalRecords());
-
-                logger.info(String.format("Finishes successfully controller %s > method getPaginated.",
-                                TodoController.class.getSimpleName()));
-
-                return ResponseEntity.ok(response);
-        }
-
-        @GetMapping("/{id}")
-        public ResponseEntity<?> get(@PathVariable long id) {
-
-                logger.info(String.format("Start controller %s > method get.",
-                                TodoController.class.getSimpleName()));
-
-                var useCaseResponse = getTodoUseCase.runAsync(id).join();
-
-                if (getTodoUseCase.hasErrorNotification()) {
-                        notificationContext.addErrorNotifications(getTodoUseCase);
-                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                }
-
-                var response = todoUseCaseResponseMapper.convertTodoQuery(useCaseResponse);
-
-                logger.info(String.format("Finishes successfully controller %s > method get.",
-                                TodoController.class.getSimpleName()));
-
-                return ResponseEntity.ok(new ResponseWithData<TodoQuery>(response, true));
-        }
+        return ResponseEntity.ok(new ResponseWithData<TodoQuery>(response, true));
+    }
 }
