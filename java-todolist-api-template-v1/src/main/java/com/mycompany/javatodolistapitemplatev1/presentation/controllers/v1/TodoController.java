@@ -26,7 +26,7 @@ import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoUseCaseRe
 import com.mycompany.javatodolistapitemplatev1.shared.notification.contexts.NotificationContext;
 
 @RestController
-@RequestMapping("api/v1/todo")
+@RequestMapping("/api/v1/todo")
 public class TodoController {
 
     private final IGetTodoListUseCase getTodoListUseCase;
@@ -79,7 +79,7 @@ public class TodoController {
         return ResponseEntity.ok(new ResponseWithData<List<TodoQuery>>(todoQueryList, true, null));
     }
 
-    @GetMapping("paginated")
+    @GetMapping("/paginated")
     public ResponseEntity<PagedResponse<List<TodoQuery>>> getPaginated(
             @RequestParam(name = "page_number") int pageNumber,
             @RequestParam(name = "page_size") int pageSize) {
