@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMassagesResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.wrappers.Response;
 import com.mycompany.javatodolistapitemplatev1.shared.notification.contexts.NotificationContext;
 import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
@@ -48,7 +49,7 @@ public class NotificationContextInterceptor implements HandlerInterceptor {
             else
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
-            Response errorResponse = new Response(false, notificationContext.getErrorNotifications());
+            Response errorResponse = new NotificationMassagesResponse(notificationContext.getErrorNotifications());
 
             try {
                 String notifications = new ObjectMapper().writeValueAsString(errorResponse);
