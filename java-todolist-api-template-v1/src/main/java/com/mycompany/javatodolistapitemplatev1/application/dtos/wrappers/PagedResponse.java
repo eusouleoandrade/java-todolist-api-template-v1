@@ -12,7 +12,7 @@ public class PagedResponse<TData> extends ResponseWithData<TData> {
 
     public PagedResponse(TData data, int pageNumber, int pageSize, int totalPages, int totalRecords) {
 
-        super(data, true, null, null);
+        super(data, true, null);
 
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;

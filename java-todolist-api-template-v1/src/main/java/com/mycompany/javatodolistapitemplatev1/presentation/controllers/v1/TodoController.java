@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.GetPaginatedTodoListsUseCaseRequest;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.wrappers.PagedResponse;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.wrappers.Response;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.wrappers.ResponseWithData;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetPaginatedTodoListsUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoListUseCase;
@@ -24,6 +25,12 @@ import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.I
 import com.mycompany.javatodolistapitemplatev1.application.mappers.GetTodoListUseCaseResponseMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoUseCaseResponseMapper;
 import com.mycompany.javatodolistapitemplatev1.shared.notification.contexts.NotificationContext;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/api/v1/todo")
@@ -61,7 +68,15 @@ public class TodoController {
         this.notificationContext = notificationContext;
     }
 
-    @GetMapping
+    @GetMapping(value = "/")
+    @Operation(summary = "Get todos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully Processed"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Response.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Response.class)) })
+    })
     public ResponseEntity<ResponseWithData<List<TodoQuery>>> getAll() {
 
         logger.info(String.format("Start controller %s > method getAll.",
@@ -79,7 +94,15 @@ public class TodoController {
         return ResponseEntity.ok(new ResponseWithData<List<TodoQuery>>(todoQueryList, true, null));
     }
 
-    @GetMapping("/paginated")
+    @GetMapping(value = "")
+    @Operation(summary = "Get todos paginated")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully Processed"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Response.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Response.class)) })
+    })
     public ResponseEntity<PagedResponse<List<TodoQuery>>> getPaginated(
             @RequestParam(name = "page_number") int pageNumber,
             @RequestParam(name = "page_size") int pageSize) {
@@ -106,6 +129,17 @@ public class TodoController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get todo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully Processed", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseWithData.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Response.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Response.class)) }),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Response.class)) })
+    })
     public ResponseEntity<?> get(@PathVariable long id) {
 
         logger.info(String.format("Start controller %s > method get.",
