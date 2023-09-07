@@ -14,4 +14,6 @@ public interface ITodoRepositoryAsync {
     CompletableFuture<Integer> getTotalRecordsAsync();
 
     CompletableFuture<Todo> getAsync(long id);
+
+    CompletableFuture<Todo> createAsync(Todo entity);
 }
