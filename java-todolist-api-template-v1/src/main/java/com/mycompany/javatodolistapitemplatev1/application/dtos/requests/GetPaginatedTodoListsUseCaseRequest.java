@@ -1,9 +1,13 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.requests;
 
+import lombok.Getter;
+
 public class GetPaginatedTodoListsUseCaseRequest {
 
+    @Getter
     private int pageNumber;
 
+    @Getter
     private int pageSize;
 
     public GetPaginatedTodoListsUseCaseRequest(
@@ -17,13 +21,5 @@ public class GetPaginatedTodoListsUseCaseRequest {
 
         this.pageSize = Math.min(pageSize, maxPageSize);
         this.pageSize = this.pageSize <= 0 ? defaultPageSize : this.pageSize;
-    }
-
-    public int getPageNumber() {
-        return pageNumber;
-    }
-
-    public int getPageSize() {
-        return pageSize;
     }
 }

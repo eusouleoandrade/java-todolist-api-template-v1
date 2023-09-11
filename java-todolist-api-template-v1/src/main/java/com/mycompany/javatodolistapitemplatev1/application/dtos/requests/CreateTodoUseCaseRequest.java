@@ -3,10 +3,14 @@ package com.mycompany.javatodolistapitemplatev1.application.dtos.requests;
 import com.mycompany.javatodolistapitemplatev1.shared.notification.abstractions.Notifiable;
 import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
 
+import lombok.Getter;
+
 public class CreateTodoUseCaseRequest extends Notifiable {
 
+    @Getter
     public String title;
 
+    @Getter
     public boolean done = false;
 
     public CreateTodoUseCaseRequest(String title) {
@@ -14,14 +18,6 @@ public class CreateTodoUseCaseRequest extends Notifiable {
         this.title = title;
 
         Validade();
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public boolean isDone() {
-        return done;
     }
 
     private void Validade() {
