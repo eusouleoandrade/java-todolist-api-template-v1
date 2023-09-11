@@ -1,5 +1,7 @@
 package com.mycompany.javatodolistapitemplatev1.presentation.controllers.v1;
 
+import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.CreateTodoRequest;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +31,7 @@ import com.mycompany.javatodolistapitemplatev1.shared.notification.contexts.Noti
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -161,5 +165,25 @@ public class TodoController {
                 TodoController.class.getSimpleName()));
 
         return ResponseEntity.ok(new GetTodoResponse(response));
+    }
+
+    @PostMapping
+    @Operation(summary = "Post todo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created successfully", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = TodoQuery.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) })
+    })
+    public ResponseEntity<?> post(@RequestBody CreateTodoRequest request) {
+
+        logger.info(String.format("Start controller %s > method post.",
+                TodoController.class.getSimpleName()));
+
+        String teste = request.title;
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
