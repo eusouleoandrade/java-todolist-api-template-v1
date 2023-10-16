@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
@@ -152,21 +154,30 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
         logger.info(String.format("Start repository %s > method createAsync.",
                 TodoRepositoryAsync.class.getSimpleName()));
 
-        String query = "INSERT INTO todo (title, done) VALUES (:title, :done); SELECT LAST_INSERT_ID() AS id;";
+        String query = "INSERT INTO todo (title, done) VALUES (:title, :done)";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("title", entity.getTitle())
                 .addValue("done", entity.isDone());
 
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
         try {
 
-            Integer id = namedParameterJdbcTemplate.queryForObject(query, params,
-                    new BeanPropertyRowMapper<>(Integer.class));
+            int affectedLines = namedParameterJdbcTemplate.update(query, params, keyHolder, new String[] { "id" });
 
-            if (id != null && id > 0)
-                return getAsync(id);
+            if (affectedLines > 0) {
 
-            return CompletableFuture.completedFuture(null);
+                var generatedId = keyHolder.getKey().longValue();
+                return getAsync(generatedId);
+
+            } else {
+
+                logger.warn(String.format("Failed to insert. Zero rows affected. Repository %s > method createAsync.",
+                        TodoRepositoryAsync.class.getSimpleName()));
+
+                return CompletableFuture.completedFuture(null);
+            }
 
         } catch (Exception ex) {
 

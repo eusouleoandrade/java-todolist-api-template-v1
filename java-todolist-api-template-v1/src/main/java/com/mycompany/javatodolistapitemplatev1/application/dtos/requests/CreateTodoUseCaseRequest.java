@@ -22,6 +22,6 @@ public class CreateTodoUseCaseRequest extends Notifiable {
 
     private void Validade() {
         if (this.title == null || title.trim().isEmpty())
-            addErrorNotification(MsgUltil.X0_IS_REQUIRED(null)[0], MsgUltil.X0_IS_REQUIRED(this.title)[1]);
+            addErrorNotification(MsgUltil.X0_IS_REQUIRED(null)[0], MsgUltil.X0_IS_REQUIRED("Title")[1]);
     }
 }

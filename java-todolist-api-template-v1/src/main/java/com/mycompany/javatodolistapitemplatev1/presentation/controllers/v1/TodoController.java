@@ -1,6 +1,5 @@
 package com.mycompany.javatodolistapitemplatev1.presentation.controllers.v1;
 
-import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.CreateTodoRequest;
 import java.util.stream.Collectors;
 
@@ -18,13 +17,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.GetPaginatedTodoListsUseCaseRequest;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.CreateTodoResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListPagedResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMassagesResponse;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMessagesResponse;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.ICreateTodoUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetPaginatedTodoListsUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoListUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoUseCase;
+import com.mycompany.javatodolistapitemplatev1.application.mappers.CreateTodoRequestMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.GetTodoListUseCaseResponseMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoUseCaseResponseMapper;
 import com.mycompany.javatodolistapitemplatev1.shared.notification.contexts.NotificationContext;
@@ -48,6 +50,8 @@ public class TodoController {
     private final TodoUseCaseResponseMapper todoUseCaseResponseMapper;
     private final Logger logger = LoggerFactory.getLogger(TodoController.class);
     private final NotificationContext notificationContext;
+    private final ICreateTodoUseCase createTodoUseCase;
+    private final CreateTodoRequestMapper createTodoRequestMapper;
 
     @Value("${paginationSettings.maxPageSize}")
     private int maxPageSize;
@@ -63,7 +67,9 @@ public class TodoController {
             IGetPaginatedTodoListsUseCase getPaginatedTodoListsUseCase,
             TodoUseCaseResponseMapper todoUseCaseResponseMapper,
             IGetTodoUseCase getTodoUseCase,
-            NotificationContext notificationContext) {
+            NotificationContext notificationContext,
+            ICreateTodoUseCase createTodoUseCase,
+            CreateTodoRequestMapper createTodoRequestMapper) {
 
         this.getTodoListUseCase = getTodoListUseCase;
         this.getTodoListUseCaseResponseMapper = getTodoListUseCaseResponseMapper;
@@ -71,6 +77,8 @@ public class TodoController {
         this.getPaginatedTodoListsUseCase = getPaginatedTodoListsUseCase;
         this.getTodoUseCase = getTodoUseCase;
         this.notificationContext = notificationContext;
+        this.createTodoUseCase = createTodoUseCase;
+        this.createTodoRequestMapper = createTodoRequestMapper;
     }
 
     @GetMapping(value = "/")
@@ -79,9 +87,9 @@ public class TodoController {
             @ApiResponse(responseCode = "200", description = "Successfully Processed", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = GetTodoListResponse.class)) }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) }),
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) })
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) })
     })
     public ResponseEntity<GetTodoListResponse> getAll() {
 
@@ -106,9 +114,9 @@ public class TodoController {
             @ApiResponse(responseCode = "200", description = "Successfully Processed", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = GetTodoListPagedResponse.class)) }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) }),
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) })
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) })
     })
     public ResponseEntity<GetTodoListPagedResponse> getPaginated(
             @RequestParam(name = "page_number") int pageNumber,
@@ -141,11 +149,11 @@ public class TodoController {
             @ApiResponse(responseCode = "200", description = "Successfully Processed", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = GetTodoResponse.class)) }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) }),
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) }),
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
             @ApiResponse(responseCode = "404", description = "Not Found", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) })
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) })
     })
     public ResponseEntity<?> get(@PathVariable long id) {
 
@@ -171,19 +179,34 @@ public class TodoController {
     @Operation(summary = "Post todo")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created successfully", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = TodoQuery.class)) }),
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = CreateTodoResponse.class)) }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) }),
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMassagesResponse.class)) })
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) })
     })
     public ResponseEntity<?> post(@RequestBody CreateTodoRequest request) {
 
         logger.info(String.format("Start controller %s > method post.",
                 TodoController.class.getSimpleName()));
 
-        // TODO: continuos here
+        var useCaseRequest = createTodoRequestMapper.convertCreateTodoUseCaseRequest(request);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        var usecaseResponse = createTodoUseCase.runAsync(useCaseRequest).join();
+
+        if (createTodoUseCase.hasErrorNotification()) {
+
+            notificationContext.addErrorNotifications(createTodoUseCase);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        var response = todoUseCaseResponseMapper.convertTodoQuery(usecaseResponse);
+
+        logger.info(String.format("Finishes successfully controller %s > method post.",
+                TodoController.class.getSimpleName()));
+
+        return new ResponseEntity<>(new CreateTodoResponse(response), HttpStatus.CREATED);
     }
+
+    // TODO: Return create Delete Http Method
 }

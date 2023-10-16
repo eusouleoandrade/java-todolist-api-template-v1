@@ -14,6 +14,7 @@ import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.I
 import com.mycompany.javatodolistapitemplatev1.application.mappers.CreateTodoUseCaseRequestMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
 import com.mycompany.javatodolistapitemplatev1.shared.notification.abstractions.Notifiable;
+import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
 
 @Service
 @RequestScope
@@ -50,6 +51,14 @@ public class CreateTodoUseCase extends Notifiable implements ICreateTodoUseCase 
         var todo = createTodoUseCaseRequestMapper.convertTodo(request);
 
         var todoRepositoryResponse = todoRepositoryAsync.createAsync(todo).join();
+
+        if (todoRepositoryResponse == null) {
+
+            addErrorNotification(MsgUltil.OBJECT_X0_IS_NULL(null)[0],
+                    MsgUltil.OBJECT_X0_IS_NULL("Todo repository response")[1]);
+
+            return CompletableFuture.completedFuture(null);
+        }
 
         logger.info(String.format("Finishes successfully useCase %s > method runAsync.",
                 CreateTodoUseCase.class.getSimpleName()));
