@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -208,5 +209,29 @@ public class TodoController {
         return new ResponseEntity<>(new CreateTodoResponse(response), HttpStatus.CREATED);
     }
 
-    // TODO: Return create Delete Http Method
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete todo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successfully Processed"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) })
+    })
+    public ResponseEntity<?> delete(@PathVariable long id) {
+
+        logger.info(String.format("Start controller %s > method delete.",
+                TodoController.class.getSimpleName()));
+
+        // TODO: Chama o useCase aqui
+
+        // TODO: Verifica se o useCase não tem nofiticação aqui.
+
+        logger.info(String.format("Finishes successfully controller %s > method delete.",
+                TodoController.class.getSimpleName()));
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
