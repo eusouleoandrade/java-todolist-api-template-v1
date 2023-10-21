@@ -24,6 +24,7 @@ import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTod
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMessagesResponse;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.ICreateTodoUseCase;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IDeleteTodoUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetPaginatedTodoListsUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoListUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoUseCase;
@@ -53,6 +54,7 @@ public class TodoController {
     private final NotificationContext notificationContext;
     private final ICreateTodoUseCase createTodoUseCase;
     private final CreateTodoRequestMapper createTodoRequestMapper;
+    private final IDeleteTodoUseCase deleteTodoUseCase;
 
     @Value("${paginationSettings.maxPageSize}")
     private int maxPageSize;
@@ -70,7 +72,8 @@ public class TodoController {
             IGetTodoUseCase getTodoUseCase,
             NotificationContext notificationContext,
             ICreateTodoUseCase createTodoUseCase,
-            CreateTodoRequestMapper createTodoRequestMapper) {
+            CreateTodoRequestMapper createTodoRequestMapper,
+            IDeleteTodoUseCase deleteTodoUseCase) {
 
         this.getTodoListUseCase = getTodoListUseCase;
         this.getTodoListUseCaseResponseMapper = getTodoListUseCaseResponseMapper;
@@ -80,6 +83,7 @@ public class TodoController {
         this.notificationContext = notificationContext;
         this.createTodoUseCase = createTodoUseCase;
         this.createTodoRequestMapper = createTodoRequestMapper;
+        this.deleteTodoUseCase = deleteTodoUseCase;
     }
 
     @GetMapping(value = "/")
@@ -225,9 +229,13 @@ public class TodoController {
         logger.info(String.format("Start controller %s > method delete.",
                 TodoController.class.getSimpleName()));
 
-        // TODO: Chama o useCase aqui
+        deleteTodoUseCase.runAsync(id).join();
 
-        // TODO: Verifica se o useCase não tem nofiticação aqui.
+        if (deleteTodoUseCase.hasErrorNotification()) {
+
+            notificationContext.addErrorNotifications(deleteTodoUseCase);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         logger.info(String.format("Finishes successfully controller %s > method delete.",
                 TodoController.class.getSimpleName()));

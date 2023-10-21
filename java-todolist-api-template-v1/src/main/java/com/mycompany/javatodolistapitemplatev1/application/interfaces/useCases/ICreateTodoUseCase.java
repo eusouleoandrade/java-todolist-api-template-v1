@@ -5,6 +5,6 @@ import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.TodoUs
 import com.mycompany.javatodolistapitemplatev1.shared.notification.interfaces.INotifiable;
 
 public interface ICreateTodoUseCase
-                extends INotifiable, IUseCaseWithRequest<CreateTodoUseCaseRequest, TodoUseCaseResponse> {
+        extends INotifiable, IUseCaseWithRequest<CreateTodoUseCaseRequest, TodoUseCaseResponse> {
 
 }

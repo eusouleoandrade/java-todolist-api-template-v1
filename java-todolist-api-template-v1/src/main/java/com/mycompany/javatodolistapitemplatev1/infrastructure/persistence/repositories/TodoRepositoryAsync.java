@@ -190,4 +190,33 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
                     TodoRepositoryAsync.class.getSimpleName()));
         }
     }
+
+    @Override
+    public CompletableFuture<Boolean> deleteAsync(long id) {
+
+        logger.info(String.format("Start repository %s > method deleteAsync.",
+                TodoRepositoryAsync.class.getSimpleName()));
+
+        String sqlCommand = "DELETE FROM todo WHERE id = :id";
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("id", id);
+
+        try {
+
+            int affectedLines = namedParameterJdbcTemplate.update(sqlCommand, params);
+
+            return CompletableFuture.completedFuture(affectedLines > 0);
+
+        } catch (Exception ex) {
+
+            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR()[1] + " - Error: " + ex.getMessage(), ex);
+            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR()[1], ex);
+
+        } finally {
+
+            logger.info(String.format("Finishes repository %s > method deleteAsync.",
+                    TodoRepositoryAsync.class.getSimpleName()));
+        }
+    }
 }
