@@ -34,7 +34,7 @@ public class DeleteTodoUseCase extends Notifiable implements IDeleteTodoUseCase 
 
         logger.info(String.format("Start useCase %s > method runAsync.", DeleteTodoUseCase.class.getSimpleName()));
 
-        getTodoUseCase.runAsync(id).join();
+        var getTodoUseCaseResponse = getTodoUseCase.runAsync(id).join();
 
         if (getTodoUseCase.hasErrorNotification()) {
 
@@ -42,7 +42,7 @@ public class DeleteTodoUseCase extends Notifiable implements IDeleteTodoUseCase 
             return CompletableFuture.completedFuture(false);
         }
 
-        var deleted = todoRepositoryAsync.deleteAsync(id).join();
+        var deleted = todoRepositoryAsync.deleteAsync(getTodoUseCaseResponse.getId()).join();
 
         if (!deleted)
             addErrorNotification(MsgUltil.FAILED_TO_REMOVE_X0(null)[0], MsgUltil.FAILED_TO_REMOVE_X0("Todo")[1]);

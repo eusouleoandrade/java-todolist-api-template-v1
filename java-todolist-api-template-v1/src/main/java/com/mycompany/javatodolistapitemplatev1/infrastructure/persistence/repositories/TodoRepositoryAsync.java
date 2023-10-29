@@ -219,4 +219,35 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
                     TodoRepositoryAsync.class.getSimpleName()));
         }
     }
+
+    @Override
+    public CompletableFuture<Boolean> updateAsync(Todo entity) {
+
+        logger.info(String.format("Start repository %s > method updateAsync.",
+                TodoRepositoryAsync.class.getSimpleName()));
+
+        String sqlCommand = "UPDATE todo SET title = :title, done = :done WHERE id = :id";
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("title", entity.getTitle())
+                .addValue("done", entity.isDone())
+                .addValue("id", entity.getId());
+
+        try {
+
+            int affectedLines = namedParameterJdbcTemplate.update(sqlCommand, params);
+
+            return CompletableFuture.completedFuture(affectedLines > 0);
+
+        } catch (Exception ex) {
+
+            logger.error(MsgUltil.DATA_BASE_SERVER_ERROR()[1] + " - Error: " + ex.getMessage(), ex);
+            throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR()[1], ex);
+
+        } finally {
+
+            logger.info(String.format("Finishes repository %s > method updateAsync.",
+                    TodoRepositoryAsync.class.getSimpleName()));
+        }
+    }
 }

@@ -18,4 +18,6 @@ public interface ITodoRepositoryAsync {
     CompletableFuture<Todo> createAsync(Todo entity);
 
     CompletableFuture<Boolean> deleteAsync(long id);
+
+    CompletableFuture<Boolean> updateAsync(Todo entity);
 }

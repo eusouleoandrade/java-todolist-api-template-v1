@@ -18,16 +18,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.GetPaginatedTodoListsUseCaseRequest;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.UpdateTodoRequest;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.UpdateTodoUseCaseRequest;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.CreateTodoResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListPagedResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMessagesResponse;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.UpdateTodoResponse;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.ICreateTodoUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IDeleteTodoUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetPaginatedTodoListsUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoListUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoUseCase;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IUpdateTodoUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.CreateTodoRequestMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.GetTodoListUseCaseResponseMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoUseCaseResponseMapper;
@@ -39,6 +43,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/v1/todo")
@@ -55,6 +61,7 @@ public class TodoController {
     private final ICreateTodoUseCase createTodoUseCase;
     private final CreateTodoRequestMapper createTodoRequestMapper;
     private final IDeleteTodoUseCase deleteTodoUseCase;
+    private final IUpdateTodoUseCase updateTodoUseCase;
 
     @Value("${paginationSettings.maxPageSize}")
     private int maxPageSize;
@@ -73,7 +80,8 @@ public class TodoController {
             NotificationContext notificationContext,
             ICreateTodoUseCase createTodoUseCase,
             CreateTodoRequestMapper createTodoRequestMapper,
-            IDeleteTodoUseCase deleteTodoUseCase) {
+            IDeleteTodoUseCase deleteTodoUseCase,
+            IUpdateTodoUseCase updateTodoUseCase) {
 
         this.getTodoListUseCase = getTodoListUseCase;
         this.getTodoListUseCaseResponseMapper = getTodoListUseCaseResponseMapper;
@@ -84,6 +92,7 @@ public class TodoController {
         this.createTodoUseCase = createTodoUseCase;
         this.createTodoRequestMapper = createTodoRequestMapper;
         this.deleteTodoUseCase = deleteTodoUseCase;
+        this.updateTodoUseCase = updateTodoUseCase;
     }
 
     @GetMapping(value = "/")
@@ -241,5 +250,36 @@ public class TodoController {
                 TodoController.class.getSimpleName()));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update todo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully Processed", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateTodoResponse.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) })
+    })
+    public ResponseEntity<?> put(@PathVariable long id, @RequestBody UpdateTodoRequest request) {
+
+        logger.info(String.format("Start controller %s > method put.",
+                TodoController.class.getSimpleName()));
+
+        updateTodoUseCase.runAsync(new UpdateTodoUseCaseRequest(id, request.title, request.done)).join();
+
+        if (updateTodoUseCase.hasErrorNotification()) {
+
+            notificationContext.addErrorNotifications(updateTodoUseCase);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        logger.info(String.format("Finishes successfully controller %s > method put.",
+                TodoController.class.getSimpleName()));
+
+        return ResponseEntity.ok(new UpdateTodoResponse(true));
     }
 }
