@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.GetPaginatedTodoListsUseCaseRequest;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.SetDoneTodoRequest;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.SetDoneTodoUseCaseRequest;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.UpdateTodoRequest;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.UpdateTodoUseCaseRequest;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.CreateTodoResponse;
@@ -25,12 +28,14 @@ import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTod
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMessagesResponse;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.SetDoneTodoResponse;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.UpdateTodoResponse;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.ICreateTodoUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IDeleteTodoUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetPaginatedTodoListsUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoListUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoUseCase;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.ISetDoneTodoUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IUpdateTodoUseCase;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.CreateTodoRequestMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.GetTodoListUseCaseResponseMapper;
@@ -62,6 +67,7 @@ public class TodoController {
     private final CreateTodoRequestMapper createTodoRequestMapper;
     private final IDeleteTodoUseCase deleteTodoUseCase;
     private final IUpdateTodoUseCase updateTodoUseCase;
+    private final ISetDoneTodoUseCase setDoneTodoUseCase;
 
     @Value("${paginationSettings.maxPageSize}")
     private int maxPageSize;
@@ -81,7 +87,8 @@ public class TodoController {
             ICreateTodoUseCase createTodoUseCase,
             CreateTodoRequestMapper createTodoRequestMapper,
             IDeleteTodoUseCase deleteTodoUseCase,
-            IUpdateTodoUseCase updateTodoUseCase) {
+            IUpdateTodoUseCase updateTodoUseCase,
+            ISetDoneTodoUseCase setDoneTodoUseCase) {
 
         this.getTodoListUseCase = getTodoListUseCase;
         this.getTodoListUseCaseResponseMapper = getTodoListUseCaseResponseMapper;
@@ -93,6 +100,7 @@ public class TodoController {
         this.createTodoRequestMapper = createTodoRequestMapper;
         this.deleteTodoUseCase = deleteTodoUseCase;
         this.updateTodoUseCase = updateTodoUseCase;
+        this.setDoneTodoUseCase = setDoneTodoUseCase;
     }
 
     @GetMapping(value = "/")
@@ -281,5 +289,33 @@ public class TodoController {
                 TodoController.class.getSimpleName()));
 
         return ResponseEntity.ok(new UpdateTodoResponse(true));
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Set done todo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully Processed", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = SetDoneTodoResponse.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) }),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NotificationMessagesResponse.class)) })
+    })
+    public ResponseEntity<?> patch(@PathVariable long id, @RequestBody SetDoneTodoRequest request) {
+
+        logger.info(String.format("Start controller %s > method patch.",
+                TodoController.class.getSimpleName()));
+
+        setDoneTodoUseCase.runAsync(new SetDoneTodoUseCaseRequest(id, request.done)).join();
+
+        if (setDoneTodoUseCase.hasErrorNotification()) {
+
+            notificationContext.addErrorNotifications(setDoneTodoUseCase);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(new SetDoneTodoResponse(true));
     }
 }
