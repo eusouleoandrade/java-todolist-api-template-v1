@@ -1,4 +1,4 @@
-name: Java - Spring Boot (Continuous Integration)
+name: Java CI (Continuous Integration)
 
 on:
   push:
@@ -7,13 +7,35 @@ on:
 
 jobs:
 
-  CreatePullRequest:
-    # needs: BuildAndTestApplication
+  BuildAndTestApplication:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 20
+
+      - name: Build application
+        run: |
+          ./mvnw clean package
+        working-directory: ./java-todolist-api-template-v1
+
+      - name: Test application
+        run: |
+          ./mvnw test
+        working-directory: ./java-todolist-api-template-v1
+
+  CreatePullRequest:
+    needs: BuildAndTestApplication
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Create pull request
         run: gh pr create -B main -H develop --title 'Merge Develop into Main (#${{ github.run_number }})' --body 'Created automatic Pull Request by Github action.'
