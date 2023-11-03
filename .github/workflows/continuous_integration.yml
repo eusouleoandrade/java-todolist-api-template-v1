@@ -8,7 +8,7 @@ on:
 jobs:
 
   CreatePullRequest:
-    needs: BuildAndTestApplication
+    # needs: BuildAndTestApplication
     runs-on: ubuntu-latest
     
     steps:
