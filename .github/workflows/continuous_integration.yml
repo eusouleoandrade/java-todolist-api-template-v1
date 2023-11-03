@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 20
-          distribution: OpenJDK
+          distribution: oracle
 
       - name: Build application
         run: |
