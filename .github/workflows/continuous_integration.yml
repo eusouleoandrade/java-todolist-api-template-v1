@@ -1,0 +1,21 @@
+name: Java - Spring Boot (Continuous Integration)
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+
+  CreatePullRequest:
+    needs: BuildAndTestApplication
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create pull request
+        run: gh pr create -B main -H develop --title 'Merge Develop into Main (#${{ github.run_number }})' --body 'Created automatic Pull Request by Github action.'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
