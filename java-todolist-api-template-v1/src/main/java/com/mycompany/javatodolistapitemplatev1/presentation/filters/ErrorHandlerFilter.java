@@ -41,10 +41,11 @@ public class ErrorHandlerFilter implements Filter {
 
             HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-            if (ex instanceof AppException) {
+            if (ex.getCause() instanceof AppException) {
 
                 httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                exceptionNotifications.add(new NotificationMessage(MsgUltil.BAD_REQUEST()[0], ex.getMessage()));
+                exceptionNotifications
+                        .add(new NotificationMessage(MsgUltil.BAD_REQUEST()[0], ex.getCause().getMessage()));
 
             } else {
 
