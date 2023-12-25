@@ -51,11 +51,11 @@ public class MsgUltil {
 
     // COD0010
     public static String[] RESPONSE_FAILED_PROCESS_REQUEST() {
-        return new String[] { "COD0011", "Failed to process the request." };
+        return new String[] { "COD0010", "Failed to process the request." };
     }
 
     // COD0011
     public static String[] BAD_REQUEST() {
-        return new String[] { "COD0012", "Bad request." };
+        return new String[] { "COD0011", "Bad request." };
     }
 }
