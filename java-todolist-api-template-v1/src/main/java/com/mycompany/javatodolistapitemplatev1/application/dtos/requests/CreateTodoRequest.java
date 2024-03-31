@@ -1,15 +1,21 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.requests;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@NoArgsConstructor
-@AllArgsConstructor
 public class CreateTodoRequest {
 
-    @Getter
-    @Setter
     public String title;
+
+    public CreateTodoRequest(String title) {
+        this.title = title;
+    }
+
+    public CreateTodoRequest() {
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
