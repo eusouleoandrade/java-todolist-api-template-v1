@@ -34,7 +34,9 @@ public class GetPaginatedTodoListsUseCaseRequestTest {
 
         // Assert
         assertNotNull(request);
+
         assertEquals(pageNumber, request.getPageNumber());
+
         assertEquals(pageSize, request.getPageSize());
     }
 
@@ -45,7 +47,8 @@ public class GetPaginatedTodoListsUseCaseRequestTest {
             "2, 60",
             "3, 100"
     })
-    public void shouldExecuteSuccessfully_WhenTheMaximumPageSizeIsLargerThanConfigured(int pageNumber, int pageSize) {
+    public void shouldExecuteSuccessfully_WhenTheMaximumPageSizeIsLargerThanConfigured(int pageNumber,
+            int pageSize) {
 
         // Arranje
         GetPaginatedTodoListsUseCaseRequest request;
@@ -58,7 +61,9 @@ public class GetPaginatedTodoListsUseCaseRequestTest {
 
         // Assert
         assertNotNull(request);
+
         assertEquals(pageNumber, request.getPageNumber());
+
         assertEquals(maxPageSize, request.getPageSize());
         assertNotEquals(pageSize, request.getPageSize());
     }
