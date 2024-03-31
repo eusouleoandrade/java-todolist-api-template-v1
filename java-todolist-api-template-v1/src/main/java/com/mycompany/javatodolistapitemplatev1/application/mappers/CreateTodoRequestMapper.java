@@ -10,6 +10,6 @@ public class CreateTodoRequestMapper {
 
     public CreateTodoUseCaseRequest convertCreateTodoUseCaseRequest(CreateTodoRequest request) {
 
-        return new CreateTodoUseCaseRequest(request.title);
+        return new CreateTodoUseCaseRequest(request.getTitle());
     }
 }
