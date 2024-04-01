@@ -3,18 +3,13 @@ package com.mycompany.javatodolistapitemplatev1.application.dtos.requests;
 import com.mycompany.javatodolistapitemplatev1.shared.notification.abstractions.Notifiable;
 import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
 
-import lombok.Getter;
-
 public class UpdateTodoUseCaseRequest extends Notifiable {
 
-    @Getter
-    public long id;
+    private long id;
 
-    @Getter
-    public String title;
+    private String title;
 
-    @Getter
-    public Boolean done;
+    private Boolean done;
 
     public UpdateTodoUseCaseRequest(long id, String title, Boolean done) {
 
@@ -32,6 +27,18 @@ public class UpdateTodoUseCaseRequest extends Notifiable {
 
         if (this.title == null || this.title.trim().isEmpty())
             addErrorNotification(MsgUltil.X0_IS_REQUIRED(null)[0],
-                    MsgUltil.X0_IS_REQUIRED("title")[1]);
+                    MsgUltil.X0_IS_REQUIRED("Title")[1]);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Boolean getDone() {
+        return done;
     }
 }

@@ -42,14 +42,14 @@ public class UpdateTodoUseCase extends Notifiable implements IUpdateTodoUseCase 
             return CompletableFuture.completedFuture(false);
         }
 
-        var todoUseCaseResponse = getTodoUseCase.runAsync(request.id).join();
+        var todoUseCaseResponse = getTodoUseCase.runAsync(request.getId()).join();
 
         if (getTodoUseCase.hasErrorNotification()) {
             addErrorNotifications(getTodoUseCase);
             return CompletableFuture.completedFuture(false);
         }
 
-        var todo = new Todo(todoUseCaseResponse.getId(), request.title, request.done);
+        var todo = new Todo(todoUseCaseResponse.getId(), request.getTitle(), request.getDone());
 
         var updated = todoRepositoryAsync.updateAsync(todo).join();
 

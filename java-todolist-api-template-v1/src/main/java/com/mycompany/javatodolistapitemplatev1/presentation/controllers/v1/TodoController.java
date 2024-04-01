@@ -308,7 +308,7 @@ public class TodoController {
         logger.info(String.format("Start controller %s > method patch.",
                 TodoController.class.getSimpleName()));
 
-        setDoneTodoUseCase.runAsync(new SetDoneTodoUseCaseRequest(id, request.done)).join();
+        setDoneTodoUseCase.runAsync(new SetDoneTodoUseCaseRequest(id, request.getDone())).join();
 
         if (setDoneTodoUseCase.hasErrorNotification()) {
 
