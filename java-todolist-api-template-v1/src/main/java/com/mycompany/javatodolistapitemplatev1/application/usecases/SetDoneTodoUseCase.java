@@ -35,14 +35,14 @@ public class SetDoneTodoUseCase extends Notifiable implements ISetDoneTodoUseCas
         logger.info(String.format("Start useCase %s > method runAsync.",
                 SetDoneTodoUseCase.class.getSimpleName()));
 
-        var todoUseCaseResponse = getTodoUseCase.runAsync(request.id).join();
+        var todoUseCaseResponse = getTodoUseCase.runAsync(request.getId()).join();
 
         if (getTodoUseCase.hasErrorNotification()) {
             addErrorNotifications(getTodoUseCase);
             return CompletableFuture.completedFuture(false);
         }
 
-        var todo = new Todo(todoUseCaseResponse.getId(), todoUseCaseResponse.getTitle(), request.done);
+        var todo = new Todo(todoUseCaseResponse.getId(), todoUseCaseResponse.getTitle(), request.getDone());
 
         var updated = todoRepositoryAsync.updateAsync(todo).join();
 

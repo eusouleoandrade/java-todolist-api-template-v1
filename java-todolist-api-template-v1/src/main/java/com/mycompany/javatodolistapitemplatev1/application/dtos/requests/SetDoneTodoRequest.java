@@ -1,13 +1,21 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.requests;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-@AllArgsConstructor
-@RequiredArgsConstructor
 public class SetDoneTodoRequest {
 
-    @Getter
-    public Boolean done;
+    private Boolean done;
+
+    public SetDoneTodoRequest(Boolean done) {
+        this.done = done;
+    }
+
+    public SetDoneTodoRequest() {
+    }
+
+    public Boolean getDone() {
+        return this.done;
+    }
+
+    public void setDone(Boolean done) {
+        this.done = done;
+    }
 }
