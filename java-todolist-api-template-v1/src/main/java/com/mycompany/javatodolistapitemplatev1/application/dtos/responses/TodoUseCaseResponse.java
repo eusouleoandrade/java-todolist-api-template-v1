@@ -2,17 +2,17 @@ package com.mycompany.javatodolistapitemplatev1.application.dtos.responses;
 
 public class TodoUseCaseResponse {
 
-    public int id;
+    public long id;
 
     public String title;
 
     public boolean done;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
