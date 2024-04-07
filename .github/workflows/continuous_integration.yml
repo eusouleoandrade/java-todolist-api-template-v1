@@ -30,18 +30,21 @@ jobs:
           ./mvnw test
         working-directory: ./java-todolist-api-template-v1
 
-  CoverageTests:
-    needs: BuildAndTestApplication
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Run tests with JaCoCo
+        run: mvn clean test jacoco:report
 
-      - name: Run Coverage Tests
-        run: |
-          ./mvnw clean jacoco:prepare-agent test jacoco:report jacoco:report-aggregate
-        working-directory: ./java-todolist-api-template-v1
+  # CoverageTests:
+  #   needs: BuildAndTestApplication
+  #   runs-on: ubuntu-latest
+    
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+
+  #     - name: Run Coverage Tests
+  #       run: |
+  #         ./mvnw clean jacoco:prepare-agent test jacoco:report jacoco:report-aggregate
+  #       working-directory: ./java-todolist-api-template-v1
   
   CreatePullRequest:
     needs: BuildAndTestApplication
