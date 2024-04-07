@@ -41,16 +41,11 @@ jobs:
           name: jacoco-report
           path: ./java-todolist-api-template-v1/target/site/jacoco/index.xml
 
-  Coveralls:
-      needs: BuildAndTestApplication
-      runs-on: ubuntu-latest
-      
-      steps:
-        - name: Upload coverage to Coveralls
-          uses: coverallsapp/github-action@v2
-          with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            path-to-lcov: ./java-todolist-api-template-v1/target/site/jacoco/jacoco.xml
+      - name: Upload coverage to Coveralls
+        uses: coverallsapp/github-action@v2.2.3
+        with:
+          github-token: ${{ secrets.GIT_TOKEN }}
+          path-to-lcov: ./java-todolist-api-template-v1/target/site/jacoco/jacoco.xml
 
   CreatePullRequest:
     needs: BuildAndTestApplication
