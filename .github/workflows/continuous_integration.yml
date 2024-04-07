@@ -25,14 +25,24 @@ jobs:
           ./mvnw clean package
         working-directory: ./java-todolist-api-template-v1
 
-      - name: Test application
-        run: |
-          ./mvnw test
-        working-directory: ./java-todolist-api-template-v1
+      # - name: Test application
+      #   run: |
+      #     ./mvnw test
+      #   working-directory: ./java-todolist-api-template-v1
 
       - name: Run tests with JaCoCo
         run: mvn clean test jacoco:report
         working-directory: ./java-todolist-api-template-v1
+
+      - name: Upload JaCoCo coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: jacoco-report
+          path: ./java-todolist-api-template-v1/target/site/jacoco/index.html
+
+      - name: Print JaCoCo coverage report
+        run: cat /java-todolist-api-template-v1/target/site/jacoco/index.html
+
 
   # CoverageTests:
   #   needs: BuildAndTestApplication
