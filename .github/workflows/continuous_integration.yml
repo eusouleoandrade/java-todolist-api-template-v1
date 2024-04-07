@@ -34,6 +34,10 @@ jobs:
         run: |
           mvn clean test jacoco:report
         working-directory: ./java-todolist-api-template-v1
+
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2.2.3
+            
   
   CreatePullRequest:
     needs: BuildAndTestApplication
