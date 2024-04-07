@@ -34,7 +34,7 @@ public class TodoQueryTest {
         assertEquals(done, todoQuery.getDone());
     }
 
-    @DisplayName("Should execute successfully when to use the parameterized constructor")
+    @DisplayName("Should execute successfully when to use the constructor")
     @ParameterizedTest
     @CsvSource({
             "1, Fazer compras., true",
