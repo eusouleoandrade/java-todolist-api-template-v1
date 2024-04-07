@@ -40,9 +40,6 @@ jobs:
           name: jacoco-report
           path: ./java-todolist-api-template-v1/target/site/jacoco/index.html
 
-      - name: Print JaCoCo coverage report
-        run: cat ./java-todolist-api-template-v1/target/site/jacoco/index.html
-
 
   # CoverageTests:
   #   needs: BuildAndTestApplication
