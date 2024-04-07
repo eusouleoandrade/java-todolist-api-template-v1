@@ -2,11 +2,20 @@ package com.mycompany.javatodolistapitemplatev1.application.dtos.queries;
 
 public class TodoQuery {
 
-    public long id;
+    private long id;
 
-    public String title;
+    private String title;
 
-    public boolean done;
+    private boolean done;
+
+    public TodoQuery(long id, String title, boolean done) {
+        this.id = id;
+        this.title = title;
+        this.done = done;
+    }
+
+    public TodoQuery() {
+    }
 
     public long getId() {
         return id;
@@ -24,7 +33,7 @@ public class TodoQuery {
         this.title = title;
     }
 
-    public boolean isDone() {
+    public boolean getDone() {
         return done;
     }
 

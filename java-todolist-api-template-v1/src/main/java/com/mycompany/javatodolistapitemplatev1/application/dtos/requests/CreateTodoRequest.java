@@ -2,7 +2,7 @@ package com.mycompany.javatodolistapitemplatev1.application.dtos.requests;
 
 public class CreateTodoRequest {
 
-    public String title;
+    private String title;
 
     public CreateTodoRequest(String title) {
         this.title = title;
