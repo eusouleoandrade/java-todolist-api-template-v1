@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  build-and-test-application:
+  BuildAndTestApplication:
     runs-on: ubuntu-latest
     
     steps:
@@ -35,8 +35,8 @@ jobs:
           mvn clean test jacoco:report
         working-directory: ./java-todolist-api-template-v1
   
-  create-pull-request:
-    needs: build-and-test-application
+  CreatePullRequest:
+    needs: BuildAndTestApplication
     runs-on: ubuntu-latest
     
     steps:
