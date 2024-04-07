@@ -25,20 +25,27 @@ jobs:
           ./mvnw clean package
         working-directory: ./java-todolist-api-template-v1
 
-      - name: Test application
-        run: |
-          ./mvnw test
-        working-directory: ./java-todolist-api-template-v1
+      # - name: Test application
+      #   run: |
+      #     ./mvnw test
+      #   working-directory: ./java-todolist-api-template-v1
 
       - name: Run tests with JaCoCo
         run: |
           mvn clean test jacoco:report
         working-directory: ./java-todolist-api-template-v1
 
-      - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@v2.2.3
-            
-  
+  Coveralls:
+      needs: build
+      runs-on: ubuntu-latest
+      
+      steps:
+        - name: Upload coverage to Coveralls
+          uses: coverallsapp/github-action@v2
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            path-to-lcov: ./java-todolist-api-template-v1/target/site/jacoco/jacoco.xml
+
   CreatePullRequest:
     needs: BuildAndTestApplication
     runs-on: ubuntu-latest
