@@ -36,7 +36,7 @@ jobs:
         working-directory: ./java-todolist-api-template-v1
 
   Coveralls:
-      needs: build
+      needs: BuildAndTestApplication
       runs-on: ubuntu-latest
       
       steps:
