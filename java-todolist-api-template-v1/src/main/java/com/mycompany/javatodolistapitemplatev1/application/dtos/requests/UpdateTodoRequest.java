@@ -2,9 +2,9 @@ package com.mycompany.javatodolistapitemplatev1.application.dtos.requests;
 
 public class UpdateTodoRequest {
 
-    public String title;
+    private String title;
 
-    public Boolean done;
+    private Boolean done;
 
     public UpdateTodoRequest(String title, Boolean done) {
         this.title = title;
@@ -12,5 +12,21 @@ public class UpdateTodoRequest {
     }
 
     public UpdateTodoRequest() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Boolean getDone() {
+        return done;
+    }
+
+    public void setDone(Boolean done) {
+        this.done = done;
     }
 }

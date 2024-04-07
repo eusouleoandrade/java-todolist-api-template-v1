@@ -277,7 +277,8 @@ public class TodoController {
         logger.info(String.format("Start controller %s > method put.",
                 TodoController.class.getSimpleName()));
 
-        updateTodoUseCase.runAsync(new UpdateTodoUseCaseRequest(id, request.title, request.done)).join();
+        updateTodoUseCase.runAsync(new UpdateTodoUseCaseRequest(id, request.getTitle(), request.getDone()))
+                .join();
 
         if (updateTodoUseCase.hasErrorNotification()) {
 

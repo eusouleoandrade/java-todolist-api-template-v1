@@ -28,8 +28,8 @@ public class UpdateTodoRequestTest {
         // Assert
         assertThat(request).isNotNull();
 
-        assertEquals(title, request.title);
-        assertEquals(done, request.done);
+        assertEquals(title, request.getTitle());
+        assertEquals(done, request.getDone());
     }
 
     @DisplayName("Should execute successfully when to use the constructor")
@@ -45,13 +45,13 @@ public class UpdateTodoRequestTest {
 
         // Act
         request = new UpdateTodoRequest();
-        request.title = title;
-        request.done = done;
+        request.setTitle(title);
+        request.setDone(done);
 
         // Assert
         assertThat(request).isNotNull();
 
-        assertEquals(title, request.title);
-        assertEquals(done, request.done);
+        assertEquals(title, request.getTitle());
+        assertEquals(done, request.getDone());
     }
 }
