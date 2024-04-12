@@ -24,9 +24,9 @@ public class GetTodoListPagedResponseTest {
     @DisplayName("Should execute successfully when to use the parameterized constructor")
     @ParameterizedTest
     @CsvSource({
-            "1, Fazer compras., true",
-            "2, Efetuar investimentos., false",
-            "3, Analisar planejamento financeiro., true"
+            "1, Title 1., true",
+            "2, Title 2., false",
+            "3, Title 3., true"
     })
     public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(long id, String title, boolean done) {
 
@@ -63,9 +63,9 @@ public class GetTodoListPagedResponseTest {
     @DisplayName("Should execute successfully when to use the set todos")
     @ParameterizedTest
     @CsvSource({
-            "1, Fazer compras., true",
-            "2, Efetuar investimentos., false",
-            "3, Analisar planejamento financeiro., true"
+            "1, Title 1., true",
+            "2, Title 2., false",
+            "3, Title 3., true"
     })
     public void shouldExecuteSuccessfully_WhenToUseSetTodos(long id, String title, boolean done) {
 

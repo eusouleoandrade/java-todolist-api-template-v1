@@ -15,8 +15,8 @@ public class UpdateTodoUseCaseRequestTest {
     @DisplayName("Should execute successfully")
     @ParameterizedTest
     @CsvSource({
-            "1, Fazer compras., true",
-            "2, Efetuar investimentos., false"
+            "1, Title 1., true",
+            "2, Title 2., false"
     })
     public void shouldExecuteSuccessfully(long id, String title, Boolean done) {
 
@@ -39,8 +39,8 @@ public class UpdateTodoUseCaseRequestTest {
     @DisplayName("Should not execute when id is invalid")
     @ParameterizedTest
     @CsvSource({
-            "0, Ir ao mercado., true",
-            "-1, Ir ao Dentista., false"
+            "0, Title 1., true",
+            "-1, Title 2., false"
     })
     public void shouldNotExecute_WhenIdIsInvalid(long id, String title, Boolean done) {
 
