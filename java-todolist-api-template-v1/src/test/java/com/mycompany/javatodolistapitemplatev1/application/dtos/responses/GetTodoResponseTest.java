@@ -1,5 +1,7 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.responses;
 
+import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,10 +11,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
-
 @SpringBootTest
-public class CreateTodoResponseTest {
+public class GetTodoResponseTest {
 
     @DisplayName("Should execute successfully when to use the parameterized constructor")
     @ParameterizedTest
@@ -21,21 +21,25 @@ public class CreateTodoResponseTest {
             "2, Title 2., false",
             "3, Title 3., true"
     })
-    public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(long id, String title, Boolean done) {
+    public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(long id, String title, boolean done) {
 
         // Arranje
+        GetTodoResponse response;
+
         TodoQuery todoQuery = new TodoQuery(id, title, done);
 
         // Act
-        CreateTodoResponse response = new CreateTodoResponse(todoQuery);
+        response = new GetTodoResponse(todoQuery);
 
-        // Asser
+        // Assert
         assertNotNull(response);
 
         assertEquals(todoQuery, response.getTodo());
 
+        assertThat(response.getTodo()).isNotNull();
+
         assertThat(response.isSucceeded()).isTrue();
-        assertEquals(response.getMessage(), "Request processed.");
+        assertEquals("Request processed.", response.getMessage());
     }
 
     @DisplayName("Should execute successfully when to use the set todo")
@@ -48,16 +52,20 @@ public class CreateTodoResponseTest {
     public void shouldExecuteSuccessfully_WhenToUseSetTodo(long id, String title, boolean done) {
 
         // Arranje
+        GetTodoResponse response;
+
         TodoQuery todoQuery = new TodoQuery(id, title, done);
 
         // Act
-        CreateTodoResponse response = new CreateTodoResponse(null);
+        response = new GetTodoResponse(null);
         response.setTodo(todoQuery);
 
-        // Asser
+        // Assert
         assertNotNull(response);
 
         assertEquals(todoQuery, response.getTodo());
+
+        assertThat(response.getTodo()).isNotNull();
 
         assertThat(response.isSucceeded()).isTrue();
         assertEquals("Request processed.", response.getMessage());

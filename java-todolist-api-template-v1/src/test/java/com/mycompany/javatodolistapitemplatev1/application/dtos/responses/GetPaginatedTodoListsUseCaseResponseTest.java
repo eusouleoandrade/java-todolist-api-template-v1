@@ -22,9 +22,9 @@ public class GetPaginatedTodoListsUseCaseResponseTest {
     @DisplayName("Should execute successfully when to use the parameterized constructor")
     @ParameterizedTest
     @CsvSource({
-            "1, Fazer compras., true",
-            "2, Efetuar investimentos., false",
-            "3, Analisar planejamento financeiro., true"
+            "1, Title 1., true",
+            "2, Title 2., false",
+            "3, Title 3., true"
     })
     public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(long id, String title, boolean done) {
 
@@ -38,7 +38,8 @@ public class GetPaginatedTodoListsUseCaseResponseTest {
         todoUseCaseResponseList.add(todoUseCaseResponse);
 
         // Act
-        GetPaginatedTodoListsUseCaseResponse response = new GetPaginatedTodoListsUseCaseResponse(pageNumber, pageSize,
+        GetPaginatedTodoListsUseCaseResponse response = new GetPaginatedTodoListsUseCaseResponse(pageNumber,
+                pageSize,
                 totalPages, totalRecords, todoUseCaseResponseList);
 
         // Assert
@@ -58,9 +59,9 @@ public class GetPaginatedTodoListsUseCaseResponseTest {
     @DisplayName("Should execute successfully when to use the setters")
     @ParameterizedTest
     @CsvSource({
-            "1, Fazer compras., true",
-            "2, Efetuar investimentos., false",
-            "3, Analisar planejamento financeiro., true"
+            "1, Title 1., true",
+            "2, Title 2., false",
+            "3, Title 3., true"
     })
     public void shouldExecuteSuccessfully_WhenToUseSetters(long id, String title, boolean done) {
 

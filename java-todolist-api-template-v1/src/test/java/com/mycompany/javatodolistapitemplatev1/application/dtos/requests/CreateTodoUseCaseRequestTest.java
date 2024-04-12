@@ -16,9 +16,9 @@ public class CreateTodoUseCaseRequestTest {
     @DisplayName("Should execute successfully")
     @ParameterizedTest
     @CsvSource({
-            "Fazer compras.",
-            "Efetuar investimentos.",
-            "Analisar planejamento financeiro."
+            "Title 1.",
+            "Title 2.",
+            "Title 3."
     })
     public void shouldExecuteSuccessfully(String title) {
 

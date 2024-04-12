@@ -13,9 +13,9 @@ public class CreateTodoRequestTest {
     @DisplayName("Should execute successfully when to use the parameterized constructor")
     @ParameterizedTest
     @CsvSource({
-            "Fazer compras.",
-            "Efetuar investimentos.",
-            "Analisar planejamento financeiro."
+            "1, Title 1., true",
+            "2, Title 2., false",
+            "3, Title 3., true"
     })
     public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(String title) {
 
@@ -34,9 +34,9 @@ public class CreateTodoRequestTest {
     @DisplayName("Should execute successfully when to use the constructor")
     @ParameterizedTest
     @CsvSource({
-            "Fazer compras.",
-            "Efetuar investimentos.",
-            "Analisar planejamento financeiro."
+            "Title 1.",
+            "Title 2.",
+            "Title 3."
     })
     public void shouldExecuteSuccessfully_WhenToUseTheCtor(String title) {
 
