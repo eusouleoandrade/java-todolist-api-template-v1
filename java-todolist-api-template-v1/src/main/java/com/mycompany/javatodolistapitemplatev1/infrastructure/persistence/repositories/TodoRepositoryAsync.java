@@ -15,9 +15,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.mycompany.javatodolistapitemplatev1.application.exceptions.AppException;
 import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
 import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
-import com.mycompany.javatodolistapitemplatev1.shared.exceptions.AppException;
 import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
 
 @Repository
@@ -40,7 +40,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
         logger.info(String.format("Start repository %s > method getTodoListAsync.",
                 TodoRepositoryAsync.class.getSimpleName()));
 
-        String sql = "SELECT * FROM todo";
+        String sql = "SELECT * FROM todolistdb.todo";
 
         try {
 
@@ -66,7 +66,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
         int offset = (pageNumber - 1) * pageSize;
 
-        String query = "SELECT id, title, done FROM todo ORDER BY id DESC LIMIT :pageSize OFFSET :offset";
+        String query = "SELECT id, title, done FROM todolistdb.todo ORDER BY id DESC LIMIT :pageSize OFFSET :offset";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("pageSize", pageSize)
@@ -95,7 +95,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
         logger.info(String.format("Start repository %s > method getTotalRecordsAsync.",
                 TodoRepositoryAsync.class.getSimpleName()));
 
-        String query = "SELECT COUNT(id) FROM todo";
+        String query = "SELECT COUNT(id) FROM todolistdb.todo";
 
         try {
 
@@ -120,7 +120,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
         logger.info(String.format("Start repository %s > method getAsync.",
                 TodoRepositoryAsync.class.getSimpleName()));
 
-        String query = "SELECT * FROM todo WHERE id = :id";
+        String query = "SELECT * FROM todolistdb.todo WHERE id = :id";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("id", id);
@@ -154,7 +154,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
         logger.info(String.format("Start repository %s > method createAsync.",
                 TodoRepositoryAsync.class.getSimpleName()));
 
-        String query = "INSERT INTO todo (title, done) VALUES (:title, :done)";
+        String query = "INSERT INTO todolistdb.todo (title, done) VALUES (:title, :done)";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("title", entity.getTitle())
@@ -197,7 +197,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
         logger.info(String.format("Start repository %s > method deleteAsync.",
                 TodoRepositoryAsync.class.getSimpleName()));
 
-        String sqlCommand = "DELETE FROM todo WHERE id = :id";
+        String sqlCommand = "DELETE FROM todolistdb.todo WHERE id = :id";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("id", id);
@@ -226,7 +226,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
         logger.info(String.format("Start repository %s > method updateAsync.",
                 TodoRepositoryAsync.class.getSimpleName()));
 
-        String sqlCommand = "UPDATE todo SET title = :title, done = :done WHERE id = :id";
+        String sqlCommand = "UPDATE todolistdb.todo SET title = :title, done = :done WHERE id = :id";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("title", entity.getTitle())
