@@ -1,4 +1,4 @@
-package com.mycompany.javatodolistapitemplatev1.shared.exceptions;
+package com.mycompany.javatodolistapitemplatev1.application.exceptions;
 
 import java.text.MessageFormat;
 
