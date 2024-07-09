@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMessagesResponse;
-import com.mycompany.javatodolistapitemplatev1.shared.exceptions.AppException;
+import com.mycompany.javatodolistapitemplatev1.application.exceptions.AppException;
 import com.mycompany.javatodolistapitemplatev1.shared.notification.models.NotificationMessage;
 import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
 
