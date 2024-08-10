@@ -2,6 +2,7 @@ package com.mycompany.javatodolistapitemplatev1.application.usecases;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,6 +24,7 @@ import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositori
 import com.mycompany.javatodolistapitemplatev1.application.mappers.CreateTodoUseCaseRequestMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
 import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
 
 import nl.altindag.log.LogCaptor;
 
@@ -100,16 +102,47 @@ public class CreateTodoUseCaseTest {
     @Test
     public void testRunAsyncFailureWhenRequestHasErrorNotification() {
 
-        // Arranje
+        String[] titles = { null, "", " " };
 
-        // Act
+        for (var title : titles) {
 
-        // Assert
+            // Arranje
+            var useCaseRequest = new CreateTodoUseCaseRequest(title);
+
+            useCase = new CreateTodoUseCase(todoRepositoryAsyncMock, createTodoUseCaseRequestMapperMock,
+                    todoMapperMock);
+
+            logCaptor = LogCaptor.forClass(CreateTodoUseCase.class);
+
+            // Act
+            var useCaseResponse = useCase.runAsync(useCaseRequest).join();
+
+            // Assert
+            assertNull(useCaseResponse);
+
+            assertThat(useCase.hasErrorNotification()).isTrue();
+
+            assertThat(useCase.getErrorNotifications()).isNotEmpty();
+            assertThat(useCase.getErrorNotifications()).hasSize(1);
+
+            assertThat(useCase.getErrorNotifications().get(0).getKey())
+                    .isEqualTo(MsgUltil.X0_IS_REQUIRED(null)[0]);
+            assertThat(useCase.getErrorNotifications().get(0).getMessage())
+                    .isEqualTo(MsgUltil.X0_IS_REQUIRED("Title")[1]);
+
+            assertThat(useCase.getSuccessNotifications()).isEmpty();
+
+            assertThat(logCaptor.getInfoLogs())
+                    .containsExactly("Start useCase CreateTodoUseCase > method runAsync.")
+                    .doesNotContain("Finishes successfully useCase CreateTodoUseCase > method runAsync.");
+        }
     }
 
     @DisplayName("Test RunAsync failure when repository response is null")
     @Test
     public void testRunAsyncFailureWhenRepositoResponseIsNull() {
+
+        // TODO: Continuar daqui
 
         // Arranje
 
