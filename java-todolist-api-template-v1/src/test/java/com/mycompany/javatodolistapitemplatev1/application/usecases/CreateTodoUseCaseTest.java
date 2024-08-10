@@ -2,6 +2,7 @@ package com.mycompany.javatodolistapitemplatev1.application.usecases;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -100,16 +101,42 @@ public class CreateTodoUseCaseTest {
     @Test
     public void testRunAsyncFailureWhenRequestHasErrorNotification() {
 
-        // Arranje
+        String[] titles = { null, "", " " };
 
-        // Act
+        for (var title : titles) {
 
-        // Assert
+            // Arranje
+            var useCaseRequest = new CreateTodoUseCaseRequest(title);
+
+            useCase = new CreateTodoUseCase(todoRepositoryAsyncMock, createTodoUseCaseRequestMapperMock,
+                    todoMapperMock);
+
+            logCaptor = LogCaptor.forClass(CreateTodoUseCase.class);
+
+            // Act
+            var useCaseResponse = useCase.runAsync(useCaseRequest).join();
+
+            // Assert
+            assertNull(useCaseResponse);
+
+            assertThat(useCase.hasErrorNotification()).isTrue();
+
+            assertThat(useCase.getErrorNotifications()).isNotEmpty();
+            assertThat(useCase.getErrorNotifications()).hasSize(1);
+
+            assertThat(useCase.getSuccessNotifications()).isEmpty();
+
+            assertThat(logCaptor.getInfoLogs())
+                    .containsExactly("Start useCase CreateTodoUseCase > method runAsync.")
+                    .doesNotContain("Finishes successfully useCase CreateTodoUseCase > method runAsync.");
+        }
     }
 
     @DisplayName("Test RunAsync failure when repository response is null")
     @Test
     public void testRunAsyncFailureWhenRepositoResponseIsNull() {
+
+        // TODO: Continuar daqui
 
         // Arranje
 
