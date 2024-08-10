@@ -24,6 +24,7 @@ import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositori
 import com.mycompany.javatodolistapitemplatev1.application.mappers.CreateTodoUseCaseRequestMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
 import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
 
 import nl.altindag.log.LogCaptor;
 
@@ -123,6 +124,11 @@ public class CreateTodoUseCaseTest {
 
             assertThat(useCase.getErrorNotifications()).isNotEmpty();
             assertThat(useCase.getErrorNotifications()).hasSize(1);
+
+            assertThat(useCase.getErrorNotifications().get(0).getKey())
+                    .isEqualTo(MsgUltil.X0_IS_REQUIRED(null)[0]);
+            assertThat(useCase.getErrorNotifications().get(0).getMessage())
+                    .isEqualTo(MsgUltil.X0_IS_REQUIRED("Title")[1]);
 
             assertThat(useCase.getSuccessNotifications()).isEmpty();
 
