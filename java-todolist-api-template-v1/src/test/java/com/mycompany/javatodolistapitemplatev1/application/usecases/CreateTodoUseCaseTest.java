@@ -154,9 +154,6 @@ public class CreateTodoUseCaseTest {
         when(createTodoUseCaseRequestMapperMock.convertTodo(request)).thenReturn(todo);
         when(todoRepositoryAsyncMock.createAsync(todo)).thenReturn(CompletableFuture.completedFuture(null));
 
-        useCase = new CreateTodoUseCase(todoRepositoryAsyncMock, createTodoUseCaseRequestMapperMock,
-                todoMapperMock);
-
         // Act
         var useCaseResponse = useCase.runAsync(request).join();
 
