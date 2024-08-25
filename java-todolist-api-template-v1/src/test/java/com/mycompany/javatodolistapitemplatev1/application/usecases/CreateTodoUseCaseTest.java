@@ -139,15 +139,44 @@ public class CreateTodoUseCaseTest {
     }
 
     @DisplayName("Test RunAsync failure when repository response is null")
-    @Test
-    public void testRunAsyncFailureWhenRepositoResponseIsNull() {
-
-        // TODO: Continuar daqui
+    @ParameterizedTest
+    @CsvSource({
+            "1, Title 1., false",
+            "2, Title 2., false",
+            "3, Title 3., false"
+    })
+    public void testRunAsyncFailureWhenRepositoResponseIsNull(long id, String title, boolean done) {
 
         // Arranje
+        var request = new CreateTodoUseCaseRequest(title);
+        var todo = new Todo(id, title, done);
+
+        when(createTodoUseCaseRequestMapperMock.convertTodo(request)).thenReturn(todo);
+        when(todoRepositoryAsyncMock.createAsync(todo)).thenReturn(CompletableFuture.completedFuture(null));
+
+        useCase = new CreateTodoUseCase(todoRepositoryAsyncMock, createTodoUseCaseRequestMapperMock,
+                todoMapperMock);
 
         // Act
+        var useCaseResponse = useCase.runAsync(request).join();
 
         // Assert
+        assertNull(useCaseResponse);
+
+        assertThat(useCase.hasErrorNotification()).isTrue();
+
+        assertThat(useCase.getErrorNotifications()).isNotEmpty();
+        assertThat(useCase.getErrorNotifications()).hasSize(1);
+
+        assertThat(useCase.getErrorNotifications().get(0).getKey())
+                .isEqualTo(MsgUltil.OBJECT_X0_IS_NULL(null)[0]);
+        assertThat(useCase.getErrorNotifications().get(0).getMessage())
+                .isEqualTo(MsgUltil.OBJECT_X0_IS_NULL("Todo repository response")[1]);
+
+        assertThat(useCase.getSuccessNotifications()).isEmpty();
+
+        assertThat(logCaptor.getInfoLogs())
+                .containsExactly("Start useCase CreateTodoUseCase > method runAsync.")
+                .doesNotContain("Finishes successfully useCase CreateTodoUseCase > method runAsync.");
     }
 }
