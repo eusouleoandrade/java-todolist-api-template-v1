@@ -1,17 +1,10 @@
 package com.mycompany.javatodolistapitemplatev1.application.usecases;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListUseCaseResponse;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
+import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
+import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import nl.altindag.log.LogCaptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,12 +12,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListUseCaseResponse;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
-import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
-import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-import nl.altindag.log.LogCaptor;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class GetTodoListUseCaseTest {
@@ -53,11 +48,9 @@ public class GetTodoListUseCaseTest {
         // Arranje
         var todos = List.of(mock(Todo.class), mock(Todo.class));
 
-        when(todoRepositoryAsyncMock.getTodoListAsync())
-                .thenReturn(CompletableFuture.completedFuture(todos));
+        when(todoRepositoryAsyncMock.getTodoListAsync()).thenReturn(CompletableFuture.completedFuture(todos));
 
-        when(todoMapperMock.convertGetTodoListUseCaseResponse(any(Todo.class)))
-                .thenReturn(mock(GetTodoListUseCaseResponse.class));
+        when(todoMapperMock.convertGetTodoListUseCaseResponse(any(Todo.class))).thenReturn(mock(GetTodoListUseCaseResponse.class));
 
         // Act
         var useCaseResponse = useCase.runAsync().join();
@@ -70,9 +63,6 @@ public class GetTodoListUseCaseTest {
         verify(todoRepositoryAsyncMock, times(1)).getTodoListAsync();
         verify(todoMapperMock, times(2)).convertGetTodoListUseCaseResponse(any(Todo.class));
 
-        assertThat(logCaptor.getInfoLogs())
-                .containsExactly(
-                        "Start useCase GetTodoListUseCase > method runAsync.",
-                        "Finishes successfully useCase GetTodoListUseCase > method runAsync.");
+        assertThat(logCaptor.getInfoLogs()).containsExactly("Start useCase GetTodoListUseCase > method runAsync.", "Finishes successfully useCase GetTodoListUseCase > method runAsync.");
     }
 }
