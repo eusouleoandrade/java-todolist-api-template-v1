@@ -35,7 +35,8 @@ public class GetTodoUseCase extends Notifiable implements IGetTodoUseCase {
 
         Validate(id);
 
-        if (hasErrorNotification()) return CompletableFuture.completedFuture(null);
+        if (hasErrorNotification())
+            return CompletableFuture.completedFuture(null);
 
         var entity = todoRepositoryAsync.getAsync(id).join();
 
