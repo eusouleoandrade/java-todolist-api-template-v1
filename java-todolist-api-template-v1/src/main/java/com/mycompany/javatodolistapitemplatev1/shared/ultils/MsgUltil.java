@@ -11,7 +11,7 @@ public class MsgUltil {
 
     // COD0002
     public static String[] X0_IS_REQUIRED(String param0) {
-        return new String[] { "COD0002", String.format("%s is required.", param0) };
+        return new String[] { "COD0002", "%s is required.".formatted(param0) };
     }
 
     // COD0003
@@ -21,17 +21,17 @@ public class MsgUltil {
 
     // COD0004
     public static String[] DATA_OF_X0_X1_NOT_FOUND(@Nullable String param0, @Nullable String param1) {
-        return new String[] { "COD0004", String.format("Data of %s %s not found.", param0, param1) };
+        return new String[] { "COD0004", "Data of %s %s not found.".formatted(param0, param1) };
     }
 
     // COD0005
     public static String[] IDENTIFIER_X0_IS_INVALID(@Nullable String param0) {
-        return new String[] { "COD0005", String.format("Identifier %s is invalid.", param0) };
+        return new String[] { "COD0005", "Identifier %s is invalid.".formatted(param0) };
     }
 
     // COD0006
     public static String[] FAILED_TO_UPDATE_X0(@Nullable String entityName) {
-        return new String[] { "COD0006", String.format("Failed to update %s.", entityName) };
+        return new String[] { "COD0006", "Failed to update %s.".formatted(entityName) };
     }
 
     // COD0007
@@ -41,12 +41,12 @@ public class MsgUltil {
 
     // COD0008
     public static String[] OBJECT_X0_IS_NULL(@Nullable String objectName) {
-        return new String[] { "COD0008", String.format("Object %s is null.", objectName) };
+        return new String[] { "COD0008", "Object %s is null.".formatted(objectName) };
     }
 
     // COD0009
     public static String[] FAILED_TO_REMOVE_X0(@Nullable String entityName) {
-        return new String[] { "COD0009", String.format("Failed to remove %s.", entityName) };
+        return new String[] { "COD0009", "Failed to remove %s.".formatted(entityName) };
     }
 
     // COD0010
