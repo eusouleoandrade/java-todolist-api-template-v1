@@ -37,7 +37,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
     @Override
     public CompletableFuture<List<Todo>> getTodoListAsync() {
 
-        logger.info(String.format("Start repository %s > method getTodoListAsync.",
+        logger.info("Start repository %s > method getTodoListAsync.".formatted(
                 TodoRepositoryAsync.class.getSimpleName()));
 
         String sql = "SELECT * FROM todolistdb.todo";
@@ -53,7 +53,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
             throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR()[1], ex);
         } finally {
 
-            logger.info(String.format("Finishes repository %s > method getTodoListAsync.",
+            logger.info("Finishes repository %s > method getTodoListAsync.".formatted(
                     TodoRepositoryAsync.class.getSimpleName()));
         }
     }
@@ -61,7 +61,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
     @Override
     public CompletableFuture<List<Todo>> getPaginatedTodoListsAsync(int pageSize, int pageNumber) {
 
-        logger.info(String.format("Start repository %s > method getPaginatedTodoListsAsync.",
+        logger.info("Start repository %s > method getPaginatedTodoListsAsync.".formatted(
                 TodoRepositoryAsync.class.getSimpleName()));
 
         int offset = (pageNumber - 1) * pageSize;
@@ -84,7 +84,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
             throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR()[1], ex);
         } finally {
 
-            logger.info(String.format("Finishes repository %s > method getPaginatedTodoListsAsync.",
+            logger.info("Finishes repository %s > method getPaginatedTodoListsAsync.".formatted(
                     TodoRepositoryAsync.class.getSimpleName()));
         }
     }
@@ -92,7 +92,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
     @Override
     public CompletableFuture<Integer> getTotalRecordsAsync() {
 
-        logger.info(String.format("Start repository %s > method getTotalRecordsAsync.",
+        logger.info("Start repository %s > method getTotalRecordsAsync.".formatted(
                 TodoRepositoryAsync.class.getSimpleName()));
 
         String query = "SELECT COUNT(id) FROM todolistdb.todo";
@@ -109,7 +109,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
             throw new AppException(MsgUltil.DATA_BASE_SERVER_ERROR()[1], ex);
         } finally {
 
-            logger.info(String.format("Finishes repository %s > method getTotalRecordsAsync.",
+            logger.info("Finishes repository %s > method getTotalRecordsAsync.".formatted(
                     TodoRepositoryAsync.class.getSimpleName()));
         }
     }
@@ -117,7 +117,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
     @Override
     public CompletableFuture<Todo> getAsync(long id) {
 
-        logger.info(String.format("Start repository %s > method getAsync.",
+        logger.info("Start repository %s > method getAsync.".formatted(
                 TodoRepositoryAsync.class.getSimpleName()));
 
         String query = "SELECT * FROM todolistdb.todo WHERE id = :id";
@@ -143,7 +143,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
         } finally {
 
-            logger.info(String.format("Finishes repository %s > method getAsync.",
+            logger.info("Finishes repository %s > method getAsync.".formatted(
                     TodoRepositoryAsync.class.getSimpleName()));
         }
     }
@@ -151,7 +151,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
     @Override
     public CompletableFuture<Todo> createAsync(Todo entity) {
 
-        logger.info(String.format("Start repository %s > method createAsync.",
+        logger.info("Start repository %s > method createAsync.".formatted(
                 TodoRepositoryAsync.class.getSimpleName()));
 
         String query = "INSERT INTO todolistdb.todo (title, done) VALUES (:title, :done)";
@@ -173,7 +173,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
             } else {
 
-                logger.warn(String.format("Failed to insert. Zero rows affected. Repository %s > method createAsync.",
+                logger.warn("Failed to insert. Zero rows affected. Repository %s > method createAsync.".formatted(
                         TodoRepositoryAsync.class.getSimpleName()));
 
                 return CompletableFuture.completedFuture(null);
@@ -186,7 +186,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
         } finally {
 
-            logger.info(String.format("Finishes repository %s > method createAsync.",
+            logger.info("Finishes repository %s > method createAsync.".formatted(
                     TodoRepositoryAsync.class.getSimpleName()));
         }
     }
@@ -194,7 +194,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
     @Override
     public CompletableFuture<Boolean> deleteAsync(long id) {
 
-        logger.info(String.format("Start repository %s > method deleteAsync.",
+        logger.info("Start repository %s > method deleteAsync.".formatted(
                 TodoRepositoryAsync.class.getSimpleName()));
 
         String sqlCommand = "DELETE FROM todolistdb.todo WHERE id = :id";
@@ -215,7 +215,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
         } finally {
 
-            logger.info(String.format("Finishes repository %s > method deleteAsync.",
+            logger.info("Finishes repository %s > method deleteAsync.".formatted(
                     TodoRepositoryAsync.class.getSimpleName()));
         }
     }
@@ -223,7 +223,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
     @Override
     public CompletableFuture<Boolean> updateAsync(Todo entity) {
 
-        logger.info(String.format("Start repository %s > method updateAsync.",
+        logger.info("Start repository %s > method updateAsync.".formatted(
                 TodoRepositoryAsync.class.getSimpleName()));
 
         String sqlCommand = "UPDATE todolistdb.todo SET title = :title, done = :done WHERE id = :id";
@@ -246,7 +246,7 @@ public class TodoRepositoryAsync implements ITodoRepositoryAsync {
 
         } finally {
 
-            logger.info(String.format("Finishes repository %s > method updateAsync.",
+            logger.info("Finishes repository %s > method updateAsync.".formatted(
                     TodoRepositoryAsync.class.getSimpleName()));
         }
     }

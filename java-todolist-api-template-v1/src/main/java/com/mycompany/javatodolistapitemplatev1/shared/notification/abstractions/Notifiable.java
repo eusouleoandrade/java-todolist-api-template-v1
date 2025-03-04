@@ -10,7 +10,7 @@ public abstract class Notifiable extends NotifiableGeneric<NotificationMessage> 
     }
 
     public void addErrorNotification(String key, String message, Object... parameters) {
-        errorNotifications.add(new NotificationMessage(key, String.format(message, parameters)));
+        errorNotifications.add(new NotificationMessage(key, message.formatted(parameters)));
     }
 
     public void addErrorNotifications(INotifiable... objects) {
@@ -24,7 +24,7 @@ public abstract class Notifiable extends NotifiableGeneric<NotificationMessage> 
     }
 
     public void addSuccessNotification(String key, String message, Object... parameters) {
-        successNotifications.add(new NotificationMessage(key, String.format(message, parameters)));
+        successNotifications.add(new NotificationMessage(key, message.formatted(parameters)));
     }
 
     public void addSuccessNotifications(INotifiable... objects) {

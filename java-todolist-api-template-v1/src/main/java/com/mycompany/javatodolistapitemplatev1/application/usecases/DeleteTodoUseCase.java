@@ -32,7 +32,7 @@ public class DeleteTodoUseCase extends Notifiable implements IDeleteTodoUseCase 
     @Override
     public CompletableFuture<Boolean> runAsync(Long id) {
 
-        logger.info(String.format("Start useCase %s > method runAsync.", DeleteTodoUseCase.class.getSimpleName()));
+        logger.info("Start useCase %s > method runAsync.".formatted(DeleteTodoUseCase.class.getSimpleName()));
 
         var getTodoUseCaseResponse = getTodoUseCase.runAsync(id).join();
 
@@ -47,7 +47,7 @@ public class DeleteTodoUseCase extends Notifiable implements IDeleteTodoUseCase 
         if (!deleted)
             addErrorNotification(MsgUltil.FAILED_TO_REMOVE_X0(null)[0], MsgUltil.FAILED_TO_REMOVE_X0("Todo")[1]);
         else
-            logger.info(String.format("Finishes successfully useCase %s > method runAsync.",
+            logger.info("Finishes successfully useCase %s > method runAsync.".formatted(
                     DeleteTodoUseCase.class.getSimpleName()));
 
         return CompletableFuture.completedFuture(deleted);

@@ -39,7 +39,7 @@ public class CreateTodoUseCase extends Notifiable implements ICreateTodoUseCase 
     @Override
     public CompletableFuture<TodoUseCaseResponse> runAsync(CreateTodoUseCaseRequest request) {
 
-        logger.info(String.format("Start useCase %s > method runAsync.",
+        logger.info("Start useCase %s > method runAsync.".formatted(
                 CreateTodoUseCase.class.getSimpleName()));
 
         if (request.hasErrorNotification()) {
@@ -60,7 +60,7 @@ public class CreateTodoUseCase extends Notifiable implements ICreateTodoUseCase 
             return CompletableFuture.completedFuture(null);
         }
 
-        logger.info(String.format("Finishes successfully useCase %s > method runAsync.",
+        logger.info("Finishes successfully useCase %s > method runAsync.".formatted(
                 CreateTodoUseCase.class.getSimpleName()));
 
         return CompletableFuture.completedFuture(todoMapper.convertTodoUseCaseResponse(todoRepositoryResponse));

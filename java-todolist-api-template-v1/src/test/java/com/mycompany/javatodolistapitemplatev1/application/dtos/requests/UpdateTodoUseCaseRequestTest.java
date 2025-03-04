@@ -63,7 +63,7 @@ public class UpdateTodoUseCaseRequestTest {
         var errorNotifications = request.getErrorNotifications();
         assertThat(errorNotifications).hasSize(1);
         assertThat(errorNotifications.get(0).getKey()).isEqualTo("COD0005");
-        assertThat(errorNotifications.get(0).getMessage()).isEqualTo(String.format("Identifier %s is invalid.", id));
+        assertThat(errorNotifications.get(0).getMessage()).isEqualTo("Identifier %s is invalid.".formatted(id));
     }
 
     @DisplayName("Should not execute when id is invalid")

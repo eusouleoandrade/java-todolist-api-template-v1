@@ -33,7 +33,7 @@ public class GetTodoListUseCase implements IGetTodoListUseCase {
     public CompletableFuture<List<GetTodoListUseCaseResponse>> runAsync() {
 
         // Loger start
-        logger.info(String.format("Start useCase %s > method runAsync.",
+        logger.info("Start useCase %s > method runAsync.".formatted(
                 GetTodoListUseCase.class.getSimpleName()));
 
         // Get todo list of repository
@@ -45,7 +45,7 @@ public class GetTodoListUseCase implements IGetTodoListUseCase {
                 .collect(Collectors.toList());
 
         // Loger finishes successfully
-        logger.info(String.format("Finishes successfully useCase %s > method runAsync.",
+        logger.info("Finishes successfully useCase %s > method runAsync.".formatted(
                 GetTodoListUseCase.class.getSimpleName()));
 
         // Return

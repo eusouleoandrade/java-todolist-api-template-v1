@@ -32,7 +32,7 @@ public class SetDoneTodoUseCase extends Notifiable implements ISetDoneTodoUseCas
     @Override
     public CompletableFuture<Boolean> runAsync(SetDoneTodoUseCaseRequest request) {
 
-        logger.info(String.format("Start useCase %s > method runAsync.",
+        logger.info("Start useCase %s > method runAsync.".formatted(
                 SetDoneTodoUseCase.class.getSimpleName()));
 
         var todoUseCaseResponse = getTodoUseCase.runAsync(request.getId()).join();
@@ -49,7 +49,7 @@ public class SetDoneTodoUseCase extends Notifiable implements ISetDoneTodoUseCas
         if (!updated)
             addErrorNotification(MsgUltil.FAILED_TO_UPDATE_X0(null)[0], MsgUltil.FAILED_TO_UPDATE_X0("Todo")[1]);
         else
-            logger.info(String.format("Finishes successfully useCase %s > method runAsync.",
+            logger.info("Finishes successfully useCase %s > method runAsync.".formatted(
                     SetDoneTodoUseCase.class.getSimpleName()));
 
         return CompletableFuture.completedFuture(updated);
