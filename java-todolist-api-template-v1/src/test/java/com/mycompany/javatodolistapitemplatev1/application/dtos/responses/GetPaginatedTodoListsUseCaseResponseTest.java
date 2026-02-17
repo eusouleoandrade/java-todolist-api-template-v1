@@ -28,7 +28,7 @@ public class GetPaginatedTodoListsUseCaseResponseTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var todoUseCaseResponse = new TodoUseCaseResponse();
         todoUseCaseResponse.setId(id);
         todoUseCaseResponse.setTitle(title);
