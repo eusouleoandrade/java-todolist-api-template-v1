@@ -72,7 +72,7 @@ jobs:
         if: steps.check_pr.outputs.exists == 'false'
         run: |
           gh pr create -B main -H develop \
-            --title "Merge Develop into Main" \
+            --title "Merge Develop into Main (#${{ github.run_number }})" \
             --body "Automated Pull Request to merge develop branch into main. This PR will be automatically updated with each new push to develop."
           
           NEW_PR=$(gh pr list -H develop -B main --state open --json number,url --jq '.[0]')
