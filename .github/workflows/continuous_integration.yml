@@ -3,6 +3,7 @@ name: Java CI (Continuous Integration)
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 on:
   push:
@@ -46,39 +47,51 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Git user
+      - name: Check for existing PR from develop to main
+        id: check_pr
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-
-      - name: Create temporary branch from develop
-        run: |
-          git fetch origin develop
-          git checkout -B develop origin/develop
-          NEW_BRANCH="develop-pr-${{ github.run_number }}-${{ github.run_id }}"
-          git checkout -b "$NEW_BRANCH"
-          echo "Branch temporária criada: $NEW_BRANCH"
-        shell: bash
-
-      - name: Push temporary branch to origin
-        run: |
-          NEW_BRANCH="develop-pr-${{ github.run_number }}-${{ github.run_id }}"
-          git push -u origin "$NEW_BRANCH"
+          # Verifica se já existe um PR aberto de develop para main
+          EXISTING_PR=$(gh pr list -H develop -B main --state open --json number,url --jq '.[0]')
+          
+          if [ -n "$EXISTING_PR" ]; then
+            PR_NUMBER=$(echo "$EXISTING_PR" | jq -r '.number')
+            PR_URL=$(echo "$EXISTING_PR" | jq -r '.url')
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+            echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+            echo "✓ PR #$PR_NUMBER já existe e será atualizado automaticamente."
+            echo "URL: $PR_URL"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "✗ Nenhum PR encontrado. Criando novo PR de develop para main..."
+          fi
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Create PR to main from temporary branch
+      - name: Create PR from develop to main
+        if: steps.check_pr.outputs.exists == 'false'
         run: |
-          NEW_BRANCH="develop-pr-${{ github.run_number }}-${{ github.run_id }}"
-          gh pr create -B main -H "$NEW_BRANCH" \
+          gh pr create -B main -H develop \
             --title "Merge Develop into Main (#${{ github.run_number }})" \
-            --body "Created automatic Pull Request by Github action from $NEW_BRANCH."
+            --body "Automated Pull Request to merge develop branch into main. This PR will be automatically updated with each new push to develop."
+          
+          NEW_PR=$(gh pr list -H develop -B main --state open --json number,url --jq '.[0]')
+          PR_NUMBER=$(echo "$NEW_PR" | jq -r '.number')
+          PR_URL=$(echo "$NEW_PR" | jq -r '.url')
+          echo "✓ PR #$PR_NUMBER criado com sucesso!"
+          echo "URL: $PR_URL"
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Print PR URL
+      - name: Summary
         run: |
-          gh pr list -B main --state open --json url,title,headRefName --jq '.[] | select(.title | test("Merge Develop into Main \(#${{ github.run_number }}\)")) | {url, headRefName}'
+          if [ "${{ steps.check_pr.outputs.exists }}" == "true" ]; then
+            echo "📋 PR existente atualizado: ${{ steps.check_pr.outputs.pr_url }}"
+          else
+            PR_INFO=$(gh pr list -H develop -B main --state open --json url --jq '.[0].url')
+            echo "📋 Novo PR criado: $PR_INFO"
+          fi
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
 
