@@ -33,7 +33,7 @@ public class GetTodoListUseCaseResponseMapperTest {
     @DisplayName("Shoul execute successfully conversion to TodoQuery")
     public void shouldExecuteSuccessfullyTheConversionTo_TodoQuery(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var getTodoListUseCaseResponse = new GetTodoListUseCaseResponse();
         getTodoListUseCaseResponse.setId(id);
         getTodoListUseCaseResponse.setTitle(title);

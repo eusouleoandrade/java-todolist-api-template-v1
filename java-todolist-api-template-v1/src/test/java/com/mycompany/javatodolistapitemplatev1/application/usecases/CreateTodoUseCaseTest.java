@@ -60,7 +60,7 @@ public class CreateTodoUseCaseTest {
     })
     public void shouldExecuteSucessfully(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var request = new CreateTodoUseCaseRequest(title);
 
         var todo = new Todo(id, title, done);
@@ -106,7 +106,7 @@ public class CreateTodoUseCaseTest {
 
         for (var title : titles) {
 
-            // Arranje
+            // Arrange
             var useCaseRequest = new CreateTodoUseCaseRequest(title);
 
             useCase = new CreateTodoUseCase(todoRepositoryAsyncMock, createTodoUseCaseRequestMapperMock,
@@ -147,7 +147,7 @@ public class CreateTodoUseCaseTest {
     })
     public void testRunAsyncFailureWhenRepositoResponseIsNull(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var request = new CreateTodoUseCaseRequest(title);
         var todo = new Todo(id, title, done);
 

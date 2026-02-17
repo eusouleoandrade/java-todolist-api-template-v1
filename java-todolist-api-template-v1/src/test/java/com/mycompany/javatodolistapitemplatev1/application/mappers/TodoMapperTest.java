@@ -36,7 +36,7 @@ public class TodoMapperTest {
     public void shouldExecuteSuccessfullyTheConversionTo_GetTodoListUseCaseResponse(long id, String title,
             boolean done) {
 
-        // Arranje
+        // Arrange
         var todo = new Todo(id, title, done);
 
         var expectedGetTodoListUseCaseResponse = new GetTodoListUseCaseResponse();
@@ -65,7 +65,7 @@ public class TodoMapperTest {
     })
     public void shouldExecuteSuccessfullyTheConversionTo_TodoUseCaseResponse(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var todo = new Todo(id, title, done);
 
         var expectedTodoUseCaseResponse = new TodoUseCaseResponse();

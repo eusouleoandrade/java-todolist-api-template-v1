@@ -50,7 +50,7 @@ public class SetDoneTodoUseCaseTest {
     })
     public void shouldExecuteSuccessfully(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var useCaseRequest = new SetDoneTodoUseCaseRequest(id, done);
 
         var todoUseCaseResponse = new TodoUseCaseResponse();

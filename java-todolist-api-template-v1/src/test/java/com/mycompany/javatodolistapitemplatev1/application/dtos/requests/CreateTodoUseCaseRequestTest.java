@@ -22,7 +22,7 @@ public class CreateTodoUseCaseRequestTest {
     })
     public void shouldExecuteSuccessfully(String title) {
 
-        // Arranje
+        // Arrange
         CreateTodoUseCaseRequest request;
 
         // Act
@@ -42,7 +42,7 @@ public class CreateTodoUseCaseRequestTest {
     @Test
     public void shouldNotExecute_WhenTitleHasInvalidValue() {
 
-        // Arranje
+        // Arrange
         CreateTodoUseCaseRequest request;
         String[] titles = { null, "", " " };
 

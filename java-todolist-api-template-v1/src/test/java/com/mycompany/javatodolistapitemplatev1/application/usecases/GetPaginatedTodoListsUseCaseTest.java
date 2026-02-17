@@ -51,7 +51,7 @@ public class GetPaginatedTodoListsUseCaseTest {
     @Test
     public void shouldExecuteSuccessfully() {
 
-        // Arranje
+        // Arrange
         int pageNumber = 1;
         int pageSize = 10;
         int maxPageSize = 20;

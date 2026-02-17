@@ -19,7 +19,7 @@ public class SetDoneTodoRequestTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(Boolean done) {
 
-        // Arranje
+        // Arrange
         SetDoneTodoRequest request;
 
         // Act
@@ -39,7 +39,7 @@ public class SetDoneTodoRequestTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheCtor(Boolean done) {
 
-        // Arranje
+        // Arrange
         SetDoneTodoRequest request;
 
         // Act

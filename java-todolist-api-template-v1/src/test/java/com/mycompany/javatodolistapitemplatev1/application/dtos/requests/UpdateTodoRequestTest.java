@@ -19,7 +19,7 @@ public class UpdateTodoRequestTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(String title, Boolean done) {
 
-        // Arranje
+        // Arrange
         UpdateTodoRequest request;
 
         // Act
@@ -40,7 +40,7 @@ public class UpdateTodoRequestTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheCtor(String title, Boolean done) {
 
-        // Arranje
+        // Arrange
         UpdateTodoRequest request;
 
         // Act

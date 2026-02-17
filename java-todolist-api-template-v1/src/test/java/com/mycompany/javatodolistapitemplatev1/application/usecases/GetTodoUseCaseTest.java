@@ -49,7 +49,7 @@ public class GetTodoUseCaseTest {
     })
     public void shouldExecuteSuccessfully(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var todoUseCaseResponse = new TodoUseCaseResponse();
         todoUseCaseResponse.setId(id);
         todoUseCaseResponse.setTitle(title);
@@ -88,7 +88,7 @@ public class GetTodoUseCaseTest {
     })
     public void shouldNotExecuteWhenIdIsInvalid(long id) {
 
-        // Arranje
+        // Arrange
 
         // Act
         var useCaseResponse = useCase.runAsync(id).join();
@@ -114,7 +114,7 @@ public class GetTodoUseCaseTest {
     @Test
     public void shouldNotExecuteWhenTodoIsNull(){
 
-        // Arranje
+        // Arrange
         long id = new Random().nextLong(1,100);
 
         when(todoRepositoryAsyncMock.getAsync(any(Long.class))).thenReturn(CompletableFuture.completedFuture(null));

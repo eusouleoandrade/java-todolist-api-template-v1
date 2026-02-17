@@ -20,7 +20,7 @@ public class UpdateTodoUseCaseRequestTest {
     })
     public void shouldExecuteSuccessfully(long id, String title, Boolean done) {
 
-        // Arranje
+        // Arrange
         UpdateTodoUseCaseRequest request;
 
         // Act
@@ -44,7 +44,7 @@ public class UpdateTodoUseCaseRequestTest {
     })
     public void shouldNotExecute_WhenIdIsInvalid(long id, String title, Boolean done) {
 
-        // Arranje
+        // Arrange
         UpdateTodoUseCaseRequest request;
 
         // Act
@@ -70,7 +70,7 @@ public class UpdateTodoUseCaseRequestTest {
     @Test
     public void shouldNotExecute_WhenTitleIsInvalid() {
 
-        // Arranje
+        // Arrange
         UpdateTodoUseCaseRequest request;
         long id = 1;
         Boolean done = false;

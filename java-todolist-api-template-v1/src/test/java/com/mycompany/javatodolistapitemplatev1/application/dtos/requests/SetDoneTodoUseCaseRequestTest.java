@@ -19,7 +19,7 @@ public class SetDoneTodoUseCaseRequestTest {
     })
     public void shouldExecuteSuccessfully(long id, Boolean done) {
 
-        // Arranje
+        // Arrange
         SetDoneTodoUseCaseRequest request;
 
         // Act

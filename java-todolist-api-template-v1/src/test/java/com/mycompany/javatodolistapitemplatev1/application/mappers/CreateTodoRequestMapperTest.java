@@ -22,7 +22,7 @@ public class CreateTodoRequestMapperTest {
     @DisplayName("Should execute successfully the conversion to CreateTodoUseCaseRequest")
     public void shouldExecuteSuccessfullyTheConversionTo_CreateTodoUseCaseRequest(String title) {
 
-        // Arranje
+        // Arrange
         CreateTodoRequestMapper mapper = new CreateTodoRequestMapper();
         CreateTodoRequest createTodoRequest = new CreateTodoRequest(title);
 

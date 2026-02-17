@@ -20,7 +20,7 @@ public class TodoUseCaseResponseTest {
     })
     public void shouldExecuteSuccessfully(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         TodoUseCaseResponse response;
 
         // Act

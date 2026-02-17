@@ -55,7 +55,7 @@ public class DeleteTodoUseCaseTest {
     })
     public void shouldExecuteSucessfully(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var todoUseCaseResponse = new TodoUseCaseResponse();
         todoUseCaseResponse.setId(id);
         todoUseCaseResponse.setTitle(title);
@@ -92,7 +92,7 @@ public class DeleteTodoUseCaseTest {
     })
     public void testRunAsyncFailureWhenNotFindTodo(long id) {
 
-        // Arranje
+        // Arrange
         when(todoRepositoryAsyncMock.getAsync(id)).thenReturn(CompletableFuture.completedFuture(null));
 
         var todoMapperMock = mock(TodoMapper.class);
@@ -134,7 +134,7 @@ public class DeleteTodoUseCaseTest {
     })
     public void testRunAsyncFailureWhenFailedToRemove(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var todoUseCaseResponse = new TodoUseCaseResponse();
         todoUseCaseResponse.setId(id);
         todoUseCaseResponse.setTitle(title);

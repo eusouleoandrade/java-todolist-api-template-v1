@@ -30,7 +30,7 @@ public class GetTodoListPagedResponseTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var todoQuery = new TodoQuery(id, title, done);
 
         var todoQueryList = new ArrayList<TodoQuery>();
@@ -69,7 +69,7 @@ public class GetTodoListPagedResponseTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseSetTodos(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var todoQuery = new TodoQuery(id, title, done);
 
         var todoQueryList = new ArrayList<TodoQuery>();

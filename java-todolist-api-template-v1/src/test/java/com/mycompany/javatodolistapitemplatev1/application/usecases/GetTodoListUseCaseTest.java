@@ -45,7 +45,7 @@ public class GetTodoListUseCaseTest {
     @Test
     public void shouldExecuteSuccessfully() {
 
-        // Arranje
+        // Arrange
         var todos = List.of(mock(Todo.class), mock(Todo.class));
 
         when(todoRepositoryAsyncMock.getTodoListAsync()).thenReturn(CompletableFuture.completedFuture(todos));

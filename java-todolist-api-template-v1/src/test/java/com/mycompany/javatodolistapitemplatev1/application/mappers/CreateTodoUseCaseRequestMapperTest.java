@@ -33,7 +33,7 @@ public class CreateTodoUseCaseRequestMapperTest {
     @DisplayName("Should execute successfully the conversion to Todo")
     public void shouldExecuteSuccessfullyTheConversionTo_Todo(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var createTodoUseCaseRequest = new CreateTodoUseCaseRequest(title);
 
         Todo expectedTodo = new Todo(id, title, done);
