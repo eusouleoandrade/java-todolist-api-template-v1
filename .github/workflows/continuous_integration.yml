@@ -1,49 +1,84 @@
 name: Java CI (Continuous Integration)
 
+permissions:
+  contents: write
+  pull-requests: write
+
 on:
   push:
     branches:
       - develop
 
 jobs:
-
   BuildAndTestApplication:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
 
       - name: Build application
         run: |
-          ./mvnw clean package
+          ./mvnw -q clean package
         working-directory: ./java-todolist-api-template-v1
 
       - name: Test application
         run: |
-          ./mvnw test
+          ./mvnw -q test
         working-directory: ./java-todolist-api-template-v1
 
       - name: Run tests with JaCoCo
         run: |
-          mvn clean test jacoco:report
+          ./mvnw -q clean test jacoco:report
         working-directory: ./java-todolist-api-template-v1
 
   CreatePullRequest:
     needs: BuildAndTestApplication
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Create pull request
-        run: gh pr create -B main -H develop --title 'Merge Develop into Main (#${{ github.run_number }})' --body 'Created automatic Pull Request by Github action.'
+      - name: Set up Git user
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Create temporary branch from develop
+        run: |
+          git fetch origin develop
+          git checkout -B develop origin/develop
+          NEW_BRANCH="develop-pr-${{ github.run_number }}-${{ github.run_id }}"
+          git checkout -b "$NEW_BRANCH"
+          echo "Branch temporária criada: $NEW_BRANCH"
+        shell: bash
+
+      - name: Push temporary branch to origin
+        run: |
+          NEW_BRANCH="develop-pr-${{ github.run_number }}-${{ github.run_id }}"
+          git push -u origin "$NEW_BRANCH"
         env:
-            GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Create PR to main from temporary branch
+        run: |
+          NEW_BRANCH="develop-pr-${{ github.run_number }}-${{ github.run_id }}"
+          gh pr create -B main -H "$NEW_BRANCH" \
+            --title "Merge Develop into Main (#${{ github.run_number }})" \
+            --body "Created automatic Pull Request by Github action from $NEW_BRANCH."
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Print PR URL
+        run: |
+          gh pr list -B main --state open --json url,title,headRefName --jq '.[] | select(.title | test("Merge Develop into Main \(#${{ github.run_number }}\)")) | {url, headRefName}'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
