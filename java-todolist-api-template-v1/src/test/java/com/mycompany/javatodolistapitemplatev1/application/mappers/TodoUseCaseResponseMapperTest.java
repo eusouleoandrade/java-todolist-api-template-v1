@@ -33,7 +33,7 @@ public class TodoUseCaseResponseMapperTest {
     })
     public void shouldExecuteSuccessfullyTheConversionTo_TodoQuery(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var todoUseCaseResponse = new TodoUseCaseResponse();
         todoUseCaseResponse.setId(id);
         todoUseCaseResponse.setTitle(title);
