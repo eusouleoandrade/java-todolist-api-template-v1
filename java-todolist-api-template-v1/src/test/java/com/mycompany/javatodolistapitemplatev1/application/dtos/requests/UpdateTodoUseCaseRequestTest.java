@@ -1,13 +1,13 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.requests;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class UpdateTodoUseCaseRequestTest {
@@ -20,7 +20,7 @@ public class UpdateTodoUseCaseRequestTest {
     })
     public void shouldExecuteSuccessfully(long id, String title, Boolean done) {
 
-        // Arranje
+        // Arrange
         UpdateTodoUseCaseRequest request;
 
         // Act
@@ -44,7 +44,7 @@ public class UpdateTodoUseCaseRequestTest {
     })
     public void shouldNotExecute_WhenIdIsInvalid(long id, String title, Boolean done) {
 
-        // Arranje
+        // Arrange
         UpdateTodoUseCaseRequest request;
 
         // Act
@@ -70,7 +70,7 @@ public class UpdateTodoUseCaseRequestTest {
     @Test
     public void shouldNotExecute_WhenTitleIsInvalid() {
 
-        // Arranje
+        // Arrange
         UpdateTodoUseCaseRequest request;
         long id = 1;
         Boolean done = false;

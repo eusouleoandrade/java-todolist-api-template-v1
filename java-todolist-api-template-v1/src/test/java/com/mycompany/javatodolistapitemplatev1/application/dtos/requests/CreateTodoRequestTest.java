@@ -1,11 +1,12 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.requests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class CreateTodoRequestTest {
@@ -19,7 +20,7 @@ public class CreateTodoRequestTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(String title) {
 
-        // Arranje
+        // Arrange
         CreateTodoRequest request;
 
         // Act
@@ -40,7 +41,7 @@ public class CreateTodoRequestTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheCtor(String title) {
 
-        // Arranje
+        // Arrange
         CreateTodoRequest request;
 
         // Act

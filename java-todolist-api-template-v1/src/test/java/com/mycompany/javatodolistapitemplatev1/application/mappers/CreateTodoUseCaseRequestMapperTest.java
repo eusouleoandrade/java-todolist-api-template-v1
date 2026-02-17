@@ -1,9 +1,7 @@
 package com.mycompany.javatodolistapitemplatev1.application.mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
-
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.CreateTodoUseCaseRequest;
+import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,8 +10,9 @@ import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.CreateTodoUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class CreateTodoUseCaseRequestMapperTest {
@@ -33,7 +32,7 @@ public class CreateTodoUseCaseRequestMapperTest {
     @DisplayName("Should execute successfully the conversion to Todo")
     public void shouldExecuteSuccessfullyTheConversionTo_Todo(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var createTodoUseCaseRequest = new CreateTodoUseCaseRequest(title);
 
         Todo expectedTodo = new Todo(id, title, done);

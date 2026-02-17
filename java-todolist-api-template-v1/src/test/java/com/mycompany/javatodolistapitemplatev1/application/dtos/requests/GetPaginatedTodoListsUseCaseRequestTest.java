@@ -1,11 +1,11 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.requests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class GetPaginatedTodoListsUseCaseRequestTest {
@@ -23,7 +23,7 @@ public class GetPaginatedTodoListsUseCaseRequestTest {
     })
     public void shouldExecuteSuccessfully(int pageNumber, int pageSize) {
 
-        // Arranje
+        // Arrange
         GetPaginatedTodoListsUseCaseRequest request;
 
         // Act
@@ -50,7 +50,7 @@ public class GetPaginatedTodoListsUseCaseRequestTest {
     public void shouldExecuteSuccessfully_WhenTheMaximumPageSizeIsLargerThanConfigured(int pageNumber,
             int pageSize) {
 
-        // Arranje
+        // Arrange
         GetPaginatedTodoListsUseCaseRequest request;
 
         // Act
@@ -77,7 +77,7 @@ public class GetPaginatedTodoListsUseCaseRequestTest {
     })
     public void shouldExecuteSuccessfully_WhenThePageNumberIsInvalid(int pageNumber, int pageSize) {
 
-        // Arranje
+        // Arrange
         GetPaginatedTodoListsUseCaseRequest request;
 
         // Act
@@ -104,7 +104,7 @@ public class GetPaginatedTodoListsUseCaseRequestTest {
     })
     public void shouldExecuteSuccessfully_WhenThePageSizeIsInvalid(int pageNumber, int pageSize) {
 
-        // Arranje
+        // Arrange
         GetPaginatedTodoListsUseCaseRequest request;
 
         // Act

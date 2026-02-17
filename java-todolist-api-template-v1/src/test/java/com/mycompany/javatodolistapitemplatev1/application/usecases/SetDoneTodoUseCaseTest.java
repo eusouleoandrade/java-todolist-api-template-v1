@@ -1,13 +1,11 @@
 package com.mycompany.javatodolistapitemplatev1.application.usecases;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.concurrent.CompletableFuture;
-
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.SetDoneTodoUseCaseRequest;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.TodoUseCaseResponse;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoUseCase;
+import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import nl.altindag.log.LogCaptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -15,13 +13,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.SetDoneTodoUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.TodoUseCaseResponse;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoUseCase;
-import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import java.util.concurrent.CompletableFuture;
 
-import nl.altindag.log.LogCaptor;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class SetDoneTodoUseCaseTest {
@@ -50,7 +46,7 @@ public class SetDoneTodoUseCaseTest {
     })
     public void shouldExecuteSuccessfully(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var useCaseRequest = new SetDoneTodoUseCaseRequest(id, done);
 
         var todoUseCaseResponse = new TodoUseCaseResponse();

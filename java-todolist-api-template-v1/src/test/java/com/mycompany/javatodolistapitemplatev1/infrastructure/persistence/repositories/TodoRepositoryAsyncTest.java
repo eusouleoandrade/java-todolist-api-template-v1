@@ -46,21 +46,20 @@ class TodoRepositoryAsyncTest {
 
     @BeforeEach
     void setUp() {
-        // repository is injected with mocks
         logCaptor = LogCaptor.forClass(TodoRepositoryAsync.class);
     }
 
     @DisplayName("getTodoListAsync - should return list when DB returns rows")
     @Test
     void getTodoListAsync_shouldReturnList() {
-        // Arranje
+
+        // Arrange
         var todo = new Todo();
         todo.setId(1L);
         todo.setTitle("Title 1");
         todo.setDone(false);
 
-        when(jdbcTemplate.query(anyString(), any(BeanPropertyRowMapper.class)))
-                .thenReturn(List.of(todo));
+        when(jdbcTemplate.query(anyString(), any(BeanPropertyRowMapper.class))).thenReturn(List.of(todo));
 
         // Act
         var result = repository.getTodoListAsync().join();
@@ -79,13 +78,12 @@ class TodoRepositoryAsyncTest {
     @DisplayName("getTodoListAsync - should throw AppException on DataAccessException")
     @Test
     void getTodoListAsync_whenDataAccessException_shouldThrowAppException() {
-        // Arranje
-        when(jdbcTemplate.query(anyString(), any(BeanPropertyRowMapper.class)))
-                .thenThrow(new DataAccessResourceFailureException("db error"));
+
+        // Arrange
+        when(jdbcTemplate.query(anyString(), any(BeanPropertyRowMapper.class))).thenThrow(new DataAccessResourceFailureException("db error"));
 
         // Act & Assert (method throws AppException directly)
-        assertThatThrownBy(() -> repository.getTodoListAsync())
-                .isInstanceOf(AppException.class);
+        assertThatThrownBy(() -> repository.getTodoListAsync()).isInstanceOf(AppException.class);
 
         verify(jdbcTemplate, times(1)).query(anyString(), any(BeanPropertyRowMapper.class));
 
@@ -100,7 +98,8 @@ class TodoRepositoryAsyncTest {
     @DisplayName("getPaginatedTodoListsAsync - should return paged list")
     @Test
     void getPaginatedTodoListsAsync_shouldReturnPagedList() {
-        // Arranje
+
+        // Arrange
         var todo = new Todo();
         todo.setId(2L);
         todo.setTitle("Title 2");
@@ -126,7 +125,8 @@ class TodoRepositoryAsyncTest {
     @DisplayName("getTotalRecordsAsync - should return count")
     @Test
     void getTotalRecordsAsync_shouldReturnCount() {
-        // Arranje
+
+        // Arrange
         when(jdbcTemplate.queryForObject(anyString(), eq(Integer.class))).thenReturn(5);
 
         // Act
@@ -145,7 +145,8 @@ class TodoRepositoryAsyncTest {
     @DisplayName("getAsync - should return entity when found")
     @Test
     void getAsync_shouldReturnEntityWhenFound() {
-        // Arranje
+
+        // Arrange
         var todo = new Todo();
         todo.setId(3L);
         todo.setTitle("Title 3");
@@ -171,7 +172,8 @@ class TodoRepositoryAsyncTest {
     @DisplayName("getAsync - should return null when not found")
     @Test
     void getAsync_whenNotFound_shouldReturnNull() {
-        // Arranje
+
+        // Arrange
         when(namedParameterJdbcTemplate.queryForObject(anyString(), any(MapSqlParameterSource.class), any(BeanPropertyRowMapper.class)))
                 .thenThrow(new EmptyResultDataAccessException(1));
 
@@ -191,7 +193,8 @@ class TodoRepositoryAsyncTest {
     @DisplayName("createAsync - should insert and return created entity")
     @Test
     void createAsync_shouldInsertAndReturnCreatedEntity() {
-        // Arranje
+
+        // Arrange
         // prepare a spy so we can stub getAsync called inside createAsync
         var repoSpy = Mockito.spy(new TodoRepositoryAsync(jdbcTemplate, namedParameterJdbcTemplate));
 
@@ -236,7 +239,7 @@ class TodoRepositoryAsyncTest {
     @DisplayName("createAsync - should return null and warn when zero rows affected")
     @Test
     void createAsync_whenZeroRowsAffected_shouldReturnNullAndLogWarn() {
-        // Arranje
+        // Arrange
         var toInsert = new Todo();
         toInsert.setTitle("New Title");
         toInsert.setDone(false);
@@ -263,7 +266,7 @@ class TodoRepositoryAsyncTest {
     @DisplayName("createAsync - should throw AppException and log error when update throws")
     @Test
     void createAsync_whenUpdateThrows_shouldThrowAppExceptionAndLogError() {
-        // Arranje
+        // Arrange
         var toInsert = new Todo();
         toInsert.setTitle("New Title");
         toInsert.setDone(false);
@@ -288,7 +291,7 @@ class TodoRepositoryAsyncTest {
     @DisplayName("deleteAsync - should return true when rows affected")
     @Test
     void deleteAsync_shouldReturnTrueWhenRowsAffected() {
-        // Arranje
+        // Arrange
         when(namedParameterJdbcTemplate.update(anyString(), any(MapSqlParameterSource.class))).thenReturn(1);
 
         // Act
@@ -307,7 +310,7 @@ class TodoRepositoryAsyncTest {
     @DisplayName("deleteAsync - should return false when no rows affected")
     @Test
     void deleteAsync_shouldReturnFalseWhenNoRowsAffected() {
-        // Arranje
+        // Arrange
         when(namedParameterJdbcTemplate.update(anyString(), any(MapSqlParameterSource.class))).thenReturn(0);
 
         // Act
@@ -326,7 +329,8 @@ class TodoRepositoryAsyncTest {
     @DisplayName("deleteAsync - should throw AppException and log error when update throws")
     @Test
     void deleteAsync_whenUpdateThrows_shouldThrowAppExceptionAndLogError() {
-        // Arranje
+
+        // Arrange
         when(namedParameterJdbcTemplate.update(anyString(), any(MapSqlParameterSource.class)))
                 .thenThrow(new DataAccessResourceFailureException("db error"));
 
@@ -347,7 +351,8 @@ class TodoRepositoryAsyncTest {
     @DisplayName("updateAsync - should return true when updated")
     @Test
     void updateAsync_shouldReturnTrueWhenUpdated() {
-        // Arranje
+
+        // Arrange
         when(namedParameterJdbcTemplate.update(anyString(), any(MapSqlParameterSource.class))).thenReturn(1);
 
         var toUpdate = new Todo();
@@ -371,7 +376,7 @@ class TodoRepositoryAsyncTest {
     @DisplayName("updateAsync - should return false when nothing updated")
     @Test
     void updateAsync_shouldReturnFalseWhenNothingUpdated() {
-        // Arranje
+        // Arrange
         when(namedParameterJdbcTemplate.update(anyString(), any(MapSqlParameterSource.class))).thenReturn(0);
 
         var toUpdate = new Todo();
@@ -395,7 +400,7 @@ class TodoRepositoryAsyncTest {
     @DisplayName("updateAsync - should throw AppException and log error when update throws")
     @Test
     void updateAsync_whenUpdateThrows_shouldThrowAppExceptionAndLogError() {
-        // Arranje
+        // Arrange
         var toUpdate = new Todo();
         toUpdate.setId(7L);
         toUpdate.setTitle("Updated");
@@ -421,7 +426,7 @@ class TodoRepositoryAsyncTest {
     @DisplayName("getTotalRecordsAsync - should throw AppException on error")
     @Test
     void getTotalRecordsAsync_whenError_shouldThrowAppException() {
-        // Arranje
+        // Arrange
         when(jdbcTemplate.queryForObject(anyString(), eq(Integer.class)))
                 .thenThrow(new DataAccessResourceFailureException("db error"));
 
@@ -435,7 +440,7 @@ class TodoRepositoryAsyncTest {
     @DisplayName("getPaginatedTodoListsAsync - should throw AppException on DataAccessException")
     @Test
     void getPaginatedTodoListsAsync_whenDataAccessException_shouldThrowAppException() {
-        // Arranje
+        // Arrange
         when(namedParameterJdbcTemplate.query(anyString(), any(MapSqlParameterSource.class), any(BeanPropertyRowMapper.class)))
                 .thenThrow(new DataAccessResourceFailureException("db error"));
 
@@ -456,7 +461,7 @@ class TodoRepositoryAsyncTest {
     @DisplayName("getAsync - should throw AppException on unexpected exception")
     @Test
     void getAsync_whenUnexpectedException_shouldThrowAppExceptionAndLogError() {
-        // Arranje
+        // Arrange
         when(namedParameterJdbcTemplate.queryForObject(anyString(), any(MapSqlParameterSource.class), any(BeanPropertyRowMapper.class)))
                 .thenThrow(new DataAccessResourceFailureException("db error"));
 

@@ -1,9 +1,7 @@
 package com.mycompany.javatodolistapitemplatev1.application.mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
-
+import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListUseCaseResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,8 +10,9 @@ import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListUseCaseResponse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class GetTodoListUseCaseResponseMapperTest {
@@ -33,7 +32,7 @@ public class GetTodoListUseCaseResponseMapperTest {
     @DisplayName("Shoul execute successfully conversion to TodoQuery")
     public void shouldExecuteSuccessfullyTheConversionTo_TodoQuery(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var getTodoListUseCaseResponse = new GetTodoListUseCaseResponse();
         getTodoListUseCaseResponse.setId(id);
         getTodoListUseCaseResponse.setTitle(title);

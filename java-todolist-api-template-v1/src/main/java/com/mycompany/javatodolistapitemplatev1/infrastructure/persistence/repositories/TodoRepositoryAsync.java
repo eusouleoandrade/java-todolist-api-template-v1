@@ -1,8 +1,9 @@
 package com.mycompany.javatodolistapitemplatev1.infrastructure.persistence.repositories;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
+import com.mycompany.javatodolistapitemplatev1.application.exceptions.AppException;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
+import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -15,10 +16,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.mycompany.javatodolistapitemplatev1.application.exceptions.AppException;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
-import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
-import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Repository
 public class TodoRepositoryAsync implements ITodoRepositoryAsync {

@@ -1,25 +1,19 @@
 package com.mycompany.javatodolistapitemplatev1.presentation.filters;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMessagesResponse;
 import com.mycompany.javatodolistapitemplatev1.application.exceptions.AppException;
 import com.mycompany.javatodolistapitemplatev1.shared.notification.models.NotificationMessage;
 import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
-
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ErrorHandlerFilter implements Filter {

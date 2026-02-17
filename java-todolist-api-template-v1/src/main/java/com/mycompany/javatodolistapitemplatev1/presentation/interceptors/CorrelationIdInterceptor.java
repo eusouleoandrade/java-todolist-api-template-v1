@@ -1,13 +1,12 @@
 package com.mycompany.javatodolistapitemplatev1.presentation.interceptors;
 
-import java.util.UUID;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 public class CorrelationIdInterceptor implements HandlerInterceptor {
 

@@ -1,17 +1,11 @@
 package com.mycompany.javatodolistapitemplatev1.application.usecases;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.GetPaginatedTodoListsUseCaseRequest;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.TodoUseCaseResponse;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
+import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
+import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import nl.altindag.log.LogCaptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,13 +13,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.GetPaginatedTodoListsUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.TodoUseCaseResponse;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
-import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
-import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-import nl.altindag.log.LogCaptor;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class GetPaginatedTodoListsUseCaseTest {
@@ -51,7 +46,7 @@ public class GetPaginatedTodoListsUseCaseTest {
     @Test
     public void shouldExecuteSuccessfully() {
 
-        // Arranje
+        // Arrange
         int pageNumber = 1;
         int pageSize = 10;
         int maxPageSize = 20;

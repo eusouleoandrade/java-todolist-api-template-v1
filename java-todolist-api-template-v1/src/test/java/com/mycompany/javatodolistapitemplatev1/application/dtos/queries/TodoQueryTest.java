@@ -1,12 +1,12 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.queries;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class TodoQueryTest {
@@ -20,7 +20,7 @@ public class TodoQueryTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(long id, String title, Boolean done) {
 
-        // Arranje
+        // Arrange
         TodoQuery todoQuery;
 
         // Act
@@ -43,7 +43,7 @@ public class TodoQueryTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheCtor(long id, String title, Boolean done) {
 
-        // Arranje
+        // Arrange
         TodoQuery todoQuery;
 
         // Act

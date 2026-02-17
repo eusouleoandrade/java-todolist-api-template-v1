@@ -1,17 +1,16 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.responses;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.ArrayList;
-
+import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
+import java.util.ArrayList;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class GetTodoListPagedResponseTest {
@@ -30,7 +29,7 @@ public class GetTodoListPagedResponseTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseTheParameterizedCtor(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var todoQuery = new TodoQuery(id, title, done);
 
         var todoQueryList = new ArrayList<TodoQuery>();
@@ -69,7 +68,7 @@ public class GetTodoListPagedResponseTest {
     })
     public void shouldExecuteSuccessfully_WhenToUseSetTodos(long id, String title, boolean done) {
 
-        // Arranje
+        // Arrange
         var todoQuery = new TodoQuery(id, title, done);
 
         var todoQueryList = new ArrayList<TodoQuery>();
