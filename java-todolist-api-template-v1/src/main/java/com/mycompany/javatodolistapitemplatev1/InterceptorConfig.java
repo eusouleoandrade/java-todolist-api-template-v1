@@ -1,10 +1,9 @@
 package com.mycompany.javatodolistapitemplatev1;
 
+import com.mycompany.javatodolistapitemplatev1.presentation.interceptors.NotificationContextInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import com.mycompany.javatodolistapitemplatev1.presentation.interceptors.NotificationContextInterceptor;
 
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {

@@ -1,10 +1,9 @@
 package com.mycompany.javatodolistapitemplatev1.application.mappers;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
-
 import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.TodoUseCaseResponse;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 @Component
 public class TodoUseCaseResponseMapper {

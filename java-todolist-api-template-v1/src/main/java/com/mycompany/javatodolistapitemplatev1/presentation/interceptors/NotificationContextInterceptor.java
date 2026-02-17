@@ -1,7 +1,13 @@
 package com.mycompany.javatodolistapitemplatev1.presentation.interceptors;
 
-import java.io.IOException;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMessagesResponse;
+import com.mycompany.javatodolistapitemplatev1.shared.notification.contexts.NotificationContext;
+import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
+import io.micrometer.common.lang.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -9,15 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMessagesResponse;
-import com.mycompany.javatodolistapitemplatev1.shared.notification.contexts.NotificationContext;
-import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
-
-import io.micrometer.common.lang.Nullable;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class NotificationContextInterceptor implements HandlerInterceptor {

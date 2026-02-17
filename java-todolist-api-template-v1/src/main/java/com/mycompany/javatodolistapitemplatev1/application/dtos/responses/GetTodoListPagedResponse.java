@@ -1,10 +1,10 @@
 package com.mycompany.javatodolistapitemplatev1.application.dtos.responses;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
 import com.mycompany.javatodolistapitemplatev1.application.dtos.wrappers.PagedResponse;
+
+import java.util.List;
 
 public class GetTodoListPagedResponse extends PagedResponse {
 

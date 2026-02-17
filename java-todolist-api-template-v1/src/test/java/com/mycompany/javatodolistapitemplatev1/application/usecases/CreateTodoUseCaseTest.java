@@ -1,14 +1,13 @@
 package com.mycompany.javatodolistapitemplatev1.application.usecases;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.concurrent.CompletableFuture;
-
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.CreateTodoUseCaseRequest;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.TodoUseCaseResponse;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
+import com.mycompany.javatodolistapitemplatev1.application.mappers.CreateTodoUseCaseRequestMapper;
+import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
+import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
+import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
+import nl.altindag.log.LogCaptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,15 +17,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.CreateTodoUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.TodoUseCaseResponse;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.repositories.ITodoRepositoryAsync;
-import com.mycompany.javatodolistapitemplatev1.application.mappers.CreateTodoUseCaseRequestMapper;
-import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoMapper;
-import com.mycompany.javatodolistapitemplatev1.domain.entities.Todo;
-import com.mycompany.javatodolistapitemplatev1.shared.ultils.MsgUltil;
+import java.util.concurrent.CompletableFuture;
 
-import nl.altindag.log.LogCaptor;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class CreateTodoUseCaseTest {

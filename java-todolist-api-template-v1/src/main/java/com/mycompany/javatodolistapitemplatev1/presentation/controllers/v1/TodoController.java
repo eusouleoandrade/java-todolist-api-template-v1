@@ -1,54 +1,26 @@
 package com.mycompany.javatodolistapitemplatev1.presentation.controllers.v1;
 
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.CreateTodoRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.GetPaginatedTodoListsUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.SetDoneTodoRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.SetDoneTodoUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.UpdateTodoRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.UpdateTodoUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.CreateTodoResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListPagedResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.NotificationMessagesResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.SetDoneTodoResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.UpdateTodoResponse;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.ICreateTodoUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IDeleteTodoUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetPaginatedTodoListsUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoListUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.ISetDoneTodoUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IUpdateTodoUseCase;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.*;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.*;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.*;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.CreateTodoRequestMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.GetTodoListUseCaseResponseMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoUseCaseResponseMapper;
 import com.mycompany.javatodolistapitemplatev1.shared.notification.contexts.NotificationContext;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/todo")

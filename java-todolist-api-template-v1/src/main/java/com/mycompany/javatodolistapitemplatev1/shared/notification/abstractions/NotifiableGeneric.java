@@ -1,9 +1,9 @@
 package com.mycompany.javatodolistapitemplatev1.shared.notification.abstractions;
 
+import com.mycompany.javatodolistapitemplatev1.shared.notification.interfaces.INotifiableGeneric;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mycompany.javatodolistapitemplatev1.shared.notification.interfaces.INotifiableGeneric;
 
 public abstract class NotifiableGeneric<TNotificationMessage>
         implements INotifiableGeneric<TNotificationMessage>, AutoCloseable {

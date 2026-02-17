@@ -1,29 +1,9 @@
 package com.mycompany.javatodolistapitemplatev1.presentation.controllers.v1;
 
 import com.mycompany.javatodolistapitemplatev1.application.dtos.queries.TodoQuery;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.CreateTodoRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.CreateTodoUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.GetPaginatedTodoListsUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.SetDoneTodoRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.SetDoneTodoUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.UpdateTodoRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.UpdateTodoUseCaseRequest;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.CreateTodoResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetPaginatedTodoListsUseCaseResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListPagedResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoListUseCaseResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.GetTodoResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.SetDoneTodoResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.TodoUseCaseResponse;
-import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.UpdateTodoResponse;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.ICreateTodoUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IDeleteTodoUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetPaginatedTodoListsUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoListUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IGetTodoUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.ISetDoneTodoUseCase;
-import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.IUpdateTodoUseCase;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.requests.*;
+import com.mycompany.javatodolistapitemplatev1.application.dtos.responses.*;
+import com.mycompany.javatodolistapitemplatev1.application.interfaces.useCases.*;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.CreateTodoRequestMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.GetTodoListUseCaseResponseMapper;
 import com.mycompany.javatodolistapitemplatev1.application.mappers.TodoUseCaseResponseMapper;
@@ -45,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
