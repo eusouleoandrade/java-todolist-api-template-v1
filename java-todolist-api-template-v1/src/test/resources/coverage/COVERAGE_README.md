@@ -8,15 +8,14 @@ Este diretório contém os relatórios de análise de cobertura de código do pr
 Um relatório visual e interativo com:
 - Dashboard com métricas principais
 - Gráficos de cobertura por pacote
-- Áreas com baixa cobertura destacadas
-- Recomendações prioritárias
-- Tabelas detalhadas
+- Tabela de detalhamento por camada
+- Recomendações de manutenção de qualidade
 
 **Como abrir:**
 ```bash
 open COVERAGE_REPORT.html
 # ou
-# Abra no navegador: file:///Users/leandroandrade/Repos/java-todolist-api-template-v1/java-todolist-api-template-v1/COVERAGE_REPORT.html
+# Abra no navegador: file:///Users/leandroandrade/Repos/java-todolist-api-template-v1/java-todolist-api-template-v1/src/test/resources/coverage/COVERAGE_REPORT.html
 ```
 
 ---
@@ -25,9 +24,8 @@ open COVERAGE_REPORT.html
 Um sumário em Markdown com:
 - Resumo executivo
 - Estatísticas globais
-- Áreas de baixa, média e excelente cobertura
-- Recomendações prioritárias
-- Próximos passos
+- Cobertura por pacotes
+- Próximos passos e recomendações de CI/CD
 
 **Como visualizar:**
 ```bash
@@ -54,24 +52,15 @@ open target/site/jacoco/index.html
 ## 🎯 Resultados da Análise
 
 ### ✅ Estatísticas Globais
-- **Cobertura de Instruções:** 93% ✅
-- **Cobertura de Branches:** 82% ⚠️
-- **Total de Classes:** 49 (100%)
-- **Total de Métodos:** 188 (99.5%)
-- **Total de Linhas:** 644 (93%)
-- **Testes Executados:** 213 (100% sucesso)
+- **Cobertura de Instruções:** 100% ✅
+- **Cobertura de Branches:** 100% ✅
+- **Total de Classes:** 49 (100% cobertas)
+- **Total de Métodos:** 188 (100% cobertos)
+- **Total de Linhas:** 644 (100% cobertas)
+- **Testes Executados:** 241 (100% sucesso)
 
 ### 🚨 Áreas com Baixa Cobertura (< 80%)
-1. **presentation.interceptors** - 31% ❌ CRÍTICO
-2. **shared.notification.abstractions** - 46% ❌ CRÍTICO
-3. **application.exceptions** - 50% ⚠️ AVISO
-
-### ⚡ Área com Cobertura Média
-- **root package** - 88% (próximo de excelente)
-
-### ✅ Áreas com Cobertura Excelente
-- 12 pacotes com 100% de cobertura 🏆
-- Incluindo: Use Cases, Controllers, Repositories, DTOs
+**Nenhuma!** Todas as classes e pacotes atingiram 100% de cobertura.
 
 ---
 
@@ -90,42 +79,19 @@ open target/site/jacoco/index.html
 
 ---
 
-## 📈 Próximas Ações (Prioridade)
-
-### 🔴 Prioridade 1 - CRÍTICA (4-8 testes)
-**Pacote:** `presentation.interceptors` (31%)
-- Adicionar testes de integração para interceptadores
-- Testar validação de headers customizados
-- Validar comportamento de correlação de IDs
-
-### 🔴 Prioridade 2 - CRÍTICA (8-12 testes)
-**Pacote:** `shared.notification.abstractions` (46%)
-- Implementar testes para abstrações de notificação
-- Testar diferentes tipos de mensagens
-- Validar cenários de erro
-
-### 🟡 Prioridade 3 - MÉDIA (3-5 testes)
-**Pacote:** `application.exceptions` (50%)
-- Adicionar testes para exceções customizadas
-- Testar mensagens de erro
-- Validar status HTTP
-
----
-
 ## 💡 Dicas e Boas Práticas
 
 1. **Usar relatório HTML para análise visual** - Mais intuitivo
 2. **Usar SUMMARY.md para documentação** - Fácil de compartilhar
-3. **Revisar interativamente no JaCoCo** - Para análise detalhada
-4. **Automatizar via CI/CD** - Gerar relatório em cada build
-5. **Estabelecer gate de cobertura** - Bloquear PR < 80%
+3. **Revisar interativamente no JaCoCo** - Para análise detalhada das linhas
+4. **Automatizar via CI/CD** - Garantir gates de qualidade para novos PRs (sugestão: mínimo de 95% de cobertura)
 
 ---
 
 ## 📊 Interpretação das Métricas
 
 ### Instruções (Instructions)
-Linhas de código compiladas. Métrica mais granular de cobertura.
+Linhas de código compiladas (bytecode). Métrica mais granular de cobertura.
 
 ### Branches
 Caminhos de lógica condicional (if/else, switch, etc.).
@@ -141,27 +107,5 @@ Arquivos de classe cobertos por testes.
 
 ---
 
-## 🔍 Navegação nos Relatórios
-
-### No COVERAGE_REPORT.html
-1. Scroll para ver diferentes seções
-2. Clique nas seções para expandir/colapsar
-3. Use as badges para filtrar por status (CRÍTICO, AVISO, ÓTIMO)
-
-### No target/site/jacoco/index.html
-1. Clique em pacotes para drill-down
-2. Clique em classes para ver cobertura de métodos
-3. Clique em métodos para ver linhas cobertas
-
----
-
-## 📞 Dúvidas?
-
-- Consulte [Documentação JaCoCo](https://www.eclemma.org/jacoco/)
-- Revise os testes em `src/test/java`
-- Analise o código em `src/main/java`
-
----
-
-**Última atualização:** 10 de maio de 2026  
+**Última atualização:** 21 de junho de 2026  
 **Gerado por:** JaCoCo 0.8.12
