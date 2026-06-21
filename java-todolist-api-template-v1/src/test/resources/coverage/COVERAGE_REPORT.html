@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Cobertura de Código - Java TodoList API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card h3 {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .card .value {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .coverage-score {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(#27ae60 0%, #27ae60 93%, #e74c3c 93%, #e74c3c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            margin: 10px auto;
+        }
+        
+        section {
+            margin-bottom: 40px;
+        }
+        
+        section h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .package-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .package-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .package-card h3 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+            word-break: break-all;
+        }
+        
+        .progress-container {
+            margin: 15px 0;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .excellent { background: #27ae60; }
+        .good { background: #f39c12; }
+        .poor { background: #e74c3c; }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: #333;
+            font-size: 13px;
+        }
+        
+        .alert {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert.warning {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            color: #856404;
+        }
+        
+        .alert.info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+        
+        .recommendations {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .recommendations h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .recommendations ol {
+            margin-left: 20px;
+            color: #555;
+        }
+        
+        .recommendations li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 5px 5px 5px 0;
+        }
+        
+        .badge.critical { background: #ffe5e5; color: #c92a2a; }
+        .badge.warning { background: #fff3bf; color: #b08600; }
+        .badge.optimal { background: #d3f9d8; color: #2f9e44; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background: #f5f7fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .footer {
+            background: #f5f7fa;
+            padding: 20px 40px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Relatório de Cobertura de Código</h1>
+            <p>Java TodoList API Template v1 | Gerado em 10 de maio de 2026</p>
+        </header>
+        
+        <div class="content">
+            <!-- Resumo Executivo -->
+            <section>
+                <h2>📈 Resumo Executivo</h2>
+                
+                <div class="alert info">
+                    <strong>✓ Análise Completa:</strong> 213 testes executados com sucesso. O projeto alcançou excelentes níveis de cobertura em 91% dos pacotes.
+                </div>
+                
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3>Cobertura de Instruções</h3>
+                        <div class="coverage-score" style="conic-gradient: conic-gradient(#27ae60 0%, #27ae60 93%, #e74c3c 93%, #e74c3c 100%);">
+                            93%
+                        </div>
+                        <p style="font-size: 12px; color: #666;">Excelente</p>
+                    </div>
+                    <div class="card">
+                        <h3>Cobertura de Branches</h3>
+                        <div class="coverage-score" style="conic-gradient: conic-gradient(#f39c12 0%, #f39c12 82%, #e74c3c 82%, #e74c3c 100%);">
+                            82%
+                        </div>
+                        <p style="font-size: 12px; color: #666;">Bom</p>
+                    </div>
+                    <div class="card">
+                        <h3>Total de Classes</h3>
+                        <div class="value">49</div>
+                        <p style="font-size: 12px; color: #666;">Testadas</p>
+                    </div>
+                    <div class="card">
+                        <h3>Total de Métodos</h3>
+                        <div class="value">188</div>
+                        <p style="font-size: 12px; color: #666;">Cobertos</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Áreas de Baixa Cobertura -->
+            <section>
+                <h2>🚨 Áreas com Baixa Cobertura (&lt; 80%)</h2>
+                
+                <div class="alert warning">
+                    <strong>⚠ Atenção:</strong> 3 pacotes identificados com cobertura abaixo do limite de 80%. Recomenda-se aumentar os testes nessas áreas.
+                </div>
+                
+                <div class="packages-grid">
+                    <!-- Pacote 1 -->
+                    <div class="package-card">
+                        <h3>com.mycompany...notification.abstractions</h3>
+                        <span class="badge critical">CRÍTICO</span>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Cobertura de Instruções</span>
+                                <span>46%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill poor" style="width: 46%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Cobertura de Branches</span>
+                                <span>41%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill poor" style="width: 41%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats">
+                            <div class="stat-item">
+                                <div>Classes</div>
+                                <div class="stat-value">2</div>
+                            </div>
+                            <div class="stat-item">
+                                <div>Métodos</div>
+                                <div class="stat-value">17</div>
+                            </div>
+                            <div class="stat-item">
+                                <div>Linhas</div>
+                                <div class="stat-value">35</div>
+                            </div>
+                            <div class="stat-item">
+                                <div>Branches</div>
+                                <div class="stat-value">12/23</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pacote 2 -->
+                    <div class="package-card">
+                        <h3>com.mycompany...presentation.interceptors</h3>
+                        <span class="badge critical">CRÍTICO</span>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Cobertura de Instruções</span>
+                                <span>31%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill poor" style="width: 31%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Cobertura de Branches</span>
+                                <span>41%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill poor" style="width: 41%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats">
+                            <div class="stat-item">
+                                <div>Classes</div>
+                                <div class="stat-value">2</div>
+                            </div>
+                            <div class="stat-item">
+                                <div>Métodos</div>
+                                <div class="stat-value">5</div>
+                            </div>
+                            <div class="stat-item">
+                                <div>Linhas</div>
+                                <div class="stat-value">32</div>
+                            </div>
+                            <div class="stat-item">
+                                <div>Branches</div>
+                                <div class="stat-value">10/11</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pacote 3 -->
+                    <div class="package-card">
+                        <h3>com.mycompany...application.exceptions</h3>
+                        <span class="badge warning">AVISO</span>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Cobertura de Instruções</span>
+                                <span>50%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill poor" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Cobertura de Branches</span>
+                                <span>N/A</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%; background: #95a5a6;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats">
+                            <div class="stat-item">
+                                <div>Classes</div>
+                                <div class="stat-value">1</div>
+                            </div>
+                            <div class="stat-item">
+                                <div>Métodos</div>
+                                <div class="stat-value">4</div>
+                            </div>
+                            <div class="stat-item">
+                                <div>Linhas</div>
+                                <div class="stat-value">8</div>
+                            </div>
+                            <div class="stat-item">
+                                <div>Branches</div>
+                                <div class="stat-value">N/A</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Áreas de Cobertura Média -->
+            <section>
+                <h2>⚡ Áreas com Cobertura Média (80-90%)</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pacote</th>
+                            <th style="width: 80px;">Instruções</th>
+                            <th style="width: 80px;">Branches</th>
+                            <th style="width: 60px;">Classes</th>
+                            <th style="width: 60px;">Métodos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>com.mycompany.javatodolistapitemplatev1</td>
+                            <td><span class="badge" style="background: #fff3bf; color: #b08600;">88%</span></td>
+                            <td>N/A</td>
+                            <td>4</td>
+                            <td>8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- Áreas de Excelente Cobertura -->
+            <section>
+                <h2>✅ Áreas com Cobertura Excelente (> 90%)</h2>
+                
+                <div class="alert info">
+                    <strong>✓ Parabéns!</strong> 91% dos pacotes alcançaram 100% de cobertura, incluindo camadas críticas como Controllers, Use Cases e Repositories.
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pacote</th>
+                            <th style="width: 80px;">Instruções</th>
+                            <th style="width: 80px;">Branches</th>
+                            <th style="width: 60px;">Classes</th>
+                            <th style="width: 60px;">Métodos</th>
+                            <th style="width: 60px;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>com.mycompany...application.usecases</td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td>7</td>
+                            <td>16</td>
+                            <td>🏆</td>
+                        </tr>
+                        <tr>
+                            <td>com.mycompany...infrastructure.persistence.repositories</td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td>1</td>
+                            <td>8</td>
+                            <td>🏆</td>
+                        </tr>
+                        <tr>
+                            <td>com.mycompany...presentation.controllers.v1</td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td>1</td>
+                            <td>8</td>
+                            <td>🏆</td>
+                        </tr>
+                        <tr>
+                            <td>com.mycompany...application.dtos.requests</td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td>7</td>
+                            <td>29</td>
+                            <td>🏆</td>
+                        </tr>
+                        <tr>
+                            <td>com.mycompany...application.dtos.responses</td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td>N/A</td>
+                            <td>10</td>
+                            <td>42</td>
+                            <td>🏆</td>
+                        </tr>
+                        <tr>
+                            <td>com.mycompany...shared.ultils</td>
+                            <td><span class="badge optimal">98%</span></td>
+                            <td>N/A</td>
+                            <td>1</td>
+                            <td>12</td>
+                            <td>⭐</td>
+                        </tr>
+                        <tr>
+                            <td>com.mycompany...presentation.filters</td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td><span class="badge optimal">100%</span></td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>🏆</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">... e mais 11 pacotes com 100% de cobertura</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- Recomendações -->
+            <section>
+                <div class="recommendations">
+                    <h3>💡 Recomendações para Melhorar a Cobertura</h3>
+                    <ol>
+                        <li>
+                            <strong>Prioridade 1 - Interceptadores:</strong> 
+                            O pacote <code>presentation.interceptors</code> tem apenas 31% de cobertura. Adicionar testes para validar o comportamento de interceptação de requisições, manipulação de headers e tratamento de erros.
+                        </li>
+                        <li>
+                            <strong>Prioridade 2 - Abstrações de Notificação:</strong> 
+                            O pacote <code>shared.notification.abstractions</code> está em 46%. Implementar testes para as interfaces abstratas de notificação e seus casos de uso.
+                        </li>
+                        <li>
+                            <strong>Prioridade 3 - Exceções:</strong> 
+                            O pacote <code>application.exceptions</code> tem 50% de cobertura. Adicionar testes para validar o lançamento e tratamento correto de exceções customizadas.
+                        </li>
+                        <li>
+                            <strong>Considerar refatoração:</strong> 
+                            Revisar o contexto de notificação (<code>shared.notification.contexts</code>) que mostra 50% de cobertura em métodos, considere simplificar ou adicionar testes específicos.
+                        </li>
+                        <li>
+                            <strong>Manutenção contínua:</strong> 
+                            Implementar hooks pre-commit para garantir que novos código mantém a cobertura acima de 80% em todos os pacotes.
+                        </li>
+                    </ol>
+                </div>
+            </section>
+            
+            <!-- Detalhes Técnicos -->
+            <section>
+                <h2>📋 Detalhes Técnicos</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total de Testes Executados</td>
+                            <td>213</td>
+                        </tr>
+                        <tr>
+                            <td>Taxa de Sucesso de Testes</td>
+                            <td>100% (sem falhas ou erros)</td>
+                        </tr>
+                        <tr>
+                            <td>Total de Instruções Analisadas</td>
+                            <td>2,778</td>
+                        </tr>
+                        <tr>
+                            <td>Instruções Cobertas</td>
+                            <td>2,588 (93%)</td>
+                        </tr>
+                        <tr>
+                            <td>Instruções Não Cobertas</td>
+                            <td>190 (7%)</td>
+                        </tr>
+                        <tr>
+                            <td>Total de Branches</td>
+                            <td>80</td>
+                        </tr>
+                        <tr>
+                            <td>Branches Cobertos</td>
+                            <td>66 (82%)</td>
+                        </tr>
+                        <tr>
+                            <td>Branches Não Cobertos</td>
+                            <td>14 (18%)</td>
+                        </tr>
+                        <tr>
+                            <td>Total de Linhas</td>
+                            <td>644</td>
+                        </tr>
+                        <tr>
+                            <td>Linhas Cobertas</td>
+                            <td>599 (93%)</td>
+                        </tr>
+                        <tr>
+                            <td>Total de Métodos</td>
+                            <td>188</td>
+                        </tr>
+                        <tr>
+                            <td>Métodos Cobertos</td>
+                            <td>187 (99%)</td>
+                        </tr>
+                        <tr>
+                            <td>Versão JaCoCo</td>
+                            <td>0.8.12</td>
+                        </tr>
+                        <tr>
+                            <td>Data do Relatório</td>
+                            <td>10 de maio de 2026</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Java TodoList API Template v1</strong></p>
+            <p>Relatório gerado automaticamente por JaCoCo (Java Code Coverage)</p>
+            <p>Para visualizar o relatório interativo completo, acesse: <code>target/site/jacoco/index.html</code></p>
+        </div>
+    </div>
+</body>
+</html>
