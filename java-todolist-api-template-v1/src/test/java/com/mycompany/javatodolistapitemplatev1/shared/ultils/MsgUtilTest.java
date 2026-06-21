@@ -203,4 +203,14 @@ public class MsgUtilTest {
         assertThat(result2[1]).contains("null");
         assertThat(result3[1]).contains("null");
     }
+
+    @DisplayName("Should instantiate MsgUltil")
+    @Test
+    public void shouldInstantiateMsgUltil() {
+        // Act
+        MsgUltil instance = new MsgUltil();
+
+        // Assert
+        assertThat(instance).isNotNull();
+    }
 }
