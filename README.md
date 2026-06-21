@@ -1,6 +1,6 @@
 # Java TodoList API Template v1
 
-API RESTful de gerenciamento de tarefas (Todo List) construída com **Java 21** e **Spring Boot 3.4.5**, seguindo os princípios de Clean Architecture com separação em camadas bem definidas.
+API RESTful de gerenciamento de tarefas (Todo List) construída com **Java 25** e **Spring Boot 3.5.15**, seguindo os princípios de Clean Architecture com separação em camadas bem definidas.
 
 ---
 
@@ -9,7 +9,7 @@ API RESTful de gerenciamento de tarefas (Todo List) construída com **Java 21** 
 | Tecnologia | Versão | Descrição |
 |---|---|---|
 | Java | 21 | Linguagem de programação |
-| Spring Boot | 3.4.5 | Framework principal |
+| Spring Boot | 3.5.15 | Framework principal |
 | Spring JDBC | — | Acesso a banco de dados relacional |
 | MySQL Connector | 9.2.0 | Driver de conexão com MySQL |
 | ModelMapper | 2.4.4 | Mapeamento entre objetos |
@@ -17,7 +17,7 @@ API RESTful de gerenciamento de tarefas (Todo List) construída com **Java 21** 
 | Jackson | — | Serialização/deserialização JSON |
 | Logback | — | Sistema de logging estruturado |
 | Spring Actuator | — | Monitoramento e health checks |
-| JaCoCo | 0.8.12 | Relatório de cobertura de testes |
+| JaCoCo | 0.8.15 | Relatório de cobertura de testes |
 | LogCaptor | 2.9.3 | Captura de logs em testes unitários |
 
 ---
@@ -172,7 +172,7 @@ http://localhost:8080/swagger-ui/index.html
 
 ### Pré-requisitos
 
-- Java 21+
+- Java 25+
 - Maven 3.8+
 - MySQL em execução na porta `3306`
 
